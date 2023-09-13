@@ -45,7 +45,7 @@ int main() {
                 printf("THE HUNT IS OVER!\nYou are lost!\n");
             } else if (strcmp(hardwood_location, "maple") == 0) {
                 char maple_location[50];
-                printf("From maple: pancakes, waffles?\n");
+                printf("From maple: pancakes, waffles, frenchtoast?\n");
                 scanf("%s", maple_location);
 
                 if (strcmp(maple_location, "pancakes") == 0) {
@@ -72,6 +72,8 @@ int main() {
                     } else {
                         printf("Invalid location!\n");
                     }
+                }else if (strcmp(maple_location, "frenchtoast") == 0) {
+                    printf("THE HUNT IS OVER!\nBut french toast is not a bad idea!\n");
                 } else {
                     printf("Invalid location!\n");
                 }
