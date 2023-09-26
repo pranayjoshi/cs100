@@ -1,14 +1,15 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-int main(void) {
+int main ()
+{
+    char sen[256];
+    scanf("%s", sen);
 
-   char s[257];
-   scanf(" %s", &s);
-   for (int a = 0; strlen(s); a++)
-    { 
-        printf("%c",toupper(s[a]));
+    for (int i = 0; i < 256; i++) {
+        sen[i] = toupper(sen[i]);
     }
-    printf("\n")
-   return 0;
+
+    printf("%s\n", sen);
+    return 0;
 }
