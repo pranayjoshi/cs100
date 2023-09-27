@@ -54,9 +54,29 @@ void displayDice(int dice[], int numDice) {
     printf("\n");
 }
 
+int returnScore(int dice[], int numDice){
+    int max = 1;
+    for (int i = 0; i < numDice; i++){
+        int tempMax = 0;
+        int nu = dice[i];
+        for (j = 0; j < numDice; j++){
+            if (nu == dice[j]){
+                tempMax ++;
+            }
+        }
+        if (tempMax > max){
+            max = tempMax;
+        }
+    }
+    return max;
+}
+
+
 int main(int argc, char ** argv){
     seed(argc, argv);
     instructions();
+
+    int scoreArr[7];
 
     for (int i = 0; i<7; i++){
         int numDice = 5;
@@ -69,7 +89,8 @@ int main(int argc, char ** argv){
         displayDice(dice, numDice);
         for (int q = 0; q< 2;q++){
             printf("Select dice to reroll:");
-            scanf("%d", &reroll);
+            if (q == 0) scanf("second: %d", &reroll);
+            else scanf("final: %d", &reroll);
             if (reroll == 0) {
                 displayDice(dice,numDice);
                 break;
@@ -81,6 +102,7 @@ int main(int argc, char ** argv){
             }
             displayDice(dice,numDice);
         }
+        scoreArr[i] = returnScore(dice, numDice);
     }
 
 
