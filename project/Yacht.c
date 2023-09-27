@@ -49,7 +49,7 @@ int rollDie() {
 
 void displayDice(int dice[], int numDice) {
     for (int i = 0; i < numDice; i++) {
-        printf("%d ", dice[i]);
+        printf("%d", dice[i]);
     }
     printf("\n");
 }
