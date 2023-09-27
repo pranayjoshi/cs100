@@ -59,7 +59,7 @@ int returnScore(int dice[], int numDice){
     for (int i = 0; i < numDice; i++){
         int tempMax = 0;
         int nu = dice[i];
-        for (j = 0; j < numDice; j++){
+        for (int j = 0; j < numDice; j++){
             if (nu == dice[j]){
                 tempMax ++;
             }
