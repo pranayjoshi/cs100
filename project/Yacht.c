@@ -1,21 +1,25 @@
- /* 
- yahtC
- */
+/*
+yahtC
+*/
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
 
-void seed(int argc, char ** argv){
+void seed(int argc, char **argv)
+{
     srand(time(NULL)); // Initialize random seed
-    if (argc>1){
+    if (argc > 1)
+    {
         int i;
-        if (1 == sscanf(argv[1],"%d",&i)){
+        if (1 == sscanf(argv[1], "%d", &i))
+        {
             srand(i);
         }
     }
 }
-void instructions(){
+void instructions()
+{
     printf("\n\n\n\n"
            "\t**********************************************************************\n"
            "\t*                         Welcome to YahtC                            *\n"
@@ -41,73 +45,126 @@ void instructions(){
            "\tThe numbers do not have to be given in order\n"
            "\tThe game ends after 7 turns.\n"
            "\t**********************************************************************\n\n\n");
-           }
+}
 
-int rollDie() {
+int rollDie()
+{
     return rand() % 6 + 1;
 }
 
-void displayDice(int dice[], int numDice) {
-    for (int i = 0; i < numDice; i++) {
+void displayDice(int dice[], int numDice)
+{
+    for (int i = 0; i < numDice; i++)
+    {
         printf("%d", dice[i]);
     }
-    printf("\n");
+}
+int sum(int dice[], int numDice){
+    int s = 0;
+    for (int i = 0; i < numDice; i++){
+        s += dice[i];
+    }
+    return s;
 }
 
-int returnScore(int dice[], int numDice){
+int returnScore(int dice[], int numDice)
+{
     int max = 1;
-    for (int i = 0; i < numDice; i++){
+    int ret = 0;
+    for (int i = 0; i < numDice; i++)
+    {
         int tempMax = 0;
         int nu = dice[i];
-        for (int j = 0; j < numDice; j++){
-            if (nu == dice[j]){
-                tempMax ++;
+        for (int j = 0; j < numDice; j++)
+        {
+            if (nu == dice[j])
+            {
+                tempMax++;
             }
         }
-        if (tempMax > max){
+        if (tempMax > max)
+        {
             max = tempMax;
         }
     }
-    return max;
+    if (max == 1){
+        ret =  45;
+    }
+    else if (max == 3){
+        ret =  30;
+    }
+    else if (max == 4){
+        ret =  40;
+    }
+    else if (max == 5){
+        ret = 50;
+    }
+    else{
+        ret = sum(dice, numDice);
+    }
+    return ret;
 }
 
 
-int main(int argc, char ** argv){
+
+int main(int argc, char **argv)
+{
     seed(argc, argv);
     instructions();
 
     int scoreArr[7];
 
-    for (int i = 0; i<7; i++){
+    for (int i = 0; i < 7; i++)
+    {
         int numDice = 5;
         int dice[numDice];
         int reroll;
-        for (int i = 0; i < numDice; i++) {
+        for (int i = 0; i < numDice; i++)
+        {
             dice[i] = rollDie();
         }
-        printf("First Roll =");
+        printf("First Roll = ");
         displayDice(dice, numDice);
-        for (int q = 0; q< 2;q++){
+        printf("\n");
+        for (int q = 0; q < 2; q++)
+        {
             printf("Select dice to reroll:");
-            if (q == 0) scanf("second: %d", &reroll);
-            else scanf("final: %d", &reroll);
-            if (reroll == 0) {
-                displayDice(dice,numDice);
+            scanf("%d", &reroll);
+            if (reroll == 0)
+            {
+                // displayDice(dice, numDice);
+                // printf("\n");
                 break;
             }
-            while (reroll != 0) {
+            if (q == 0)
+            {
+                printf("second: ");
+            }
+            else
+                printf("final: ");
+            while (reroll != 0)
+            {
                 int i = reroll % 10;
-                dice[i-1] = rollDie();
+                dice[i - 1] = rollDie();
                 reroll /= 10;
             }
-            displayDice(dice,numDice);
+            displayDice(dice, numDice);
+            printf("\n");
         }
         scoreArr[i] = returnScore(dice, numDice);
+        printf("score for ");
+        displayDice(dice, numDice);
+        printf(" is %d\n", scoreArr[i]);
     }
 
-
-    
-
+    int sumx = 0;
+    sumx = sum(scoreArr,7);
+    printf("\n\n----------\nSCORESHEET\n----------\n");
+    for (int i = 1; i <=7; i++){
+        printf("Turn %d: %d\n",i, scoreArr[i-1]);
+    }
+    printf("==========\n");
+    printf("Total: %d\n", sumx);
 
     return 0;
 }
