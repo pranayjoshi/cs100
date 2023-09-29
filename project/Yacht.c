@@ -118,7 +118,7 @@ int main(int argc, char **argv)
     {
         int numDice = 5;
         int dice[numDice];
-        int reroll;
+        char reroll[5];
         for (int i = 0; i < numDice; i++)
         {
             dice[i] = rollDie();
@@ -129,11 +129,9 @@ int main(int argc, char **argv)
         for (int q = 0; q < 2; q++)
         {
             printf("Select dice to reroll:");
-            scanf("%d", &reroll);
-            if (reroll == 0)
+            scanf(" %s", reroll);
+            if (strcmp(reroll, "0") == 0)
             {
-                // displayDice(dice, numDice);
-                // printf("\n");
                 break;
             }
             if (q == 0)
@@ -142,11 +140,10 @@ int main(int argc, char **argv)
             }
             else
                 printf("final: ");
-            while (reroll != 0)
+            for (int x = 0; x < strlen(reroll) ;x++)
             {
-                int i = reroll % 10;
-                dice[i - 1] = rollDie();
-                reroll /= 10;
+                int j = reroll[x]-'1';
+                dice[j] = rollDie();
             }
             displayDice(dice, numDice);
             printf("\n");
