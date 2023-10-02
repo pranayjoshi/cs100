@@ -1,20 +1,20 @@
 #include <stdio.h>
+#include <string.h>
 
 int main()
 {
-    printf("Enter a input:\n");
     int strA[26] = {0};
     char str[51];
     printf("Enter a string: ");
-    fgets(str, sizeof(input), stdin);
+    fgets(str, sizeof(str), stdin);
     str[strcspn(str, "\n")] = '\0';
-    for (int i = 0; str[i] != '\0', i++)
+    for (int i = 0; str[i] != '\0'; i++)
     {
         int sj = str[i] - 'a';
         strA[sj]++;
     }
     int t = 0;
-    printf("Unique characters include: ")
+    printf("Unique characters include: ");
     for (int i = 0; i < 26; i++)
     {
         if (strA[i] == 1)
