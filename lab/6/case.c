@@ -1,40 +1,29 @@
 #include <stdio.h>
 #include <ctype.h>
 
-void countCase(char str[], int *pNumUpper, int *pNumLower){
-    for (int i = 0; str[i] != '\0'; i++){
-        char st[50] = "";
-        int lw;
-        int up;
-        while (1){
-            if (isspace(str[i])){
-                break;
-            }
-            else if ('A' <= str[i] && str[i] <='Z'){
-                (*pNumUpper)++;
-            }
-            else if ('a' <= str[i] && str[i] <= 'z'){
-                (*pNumLower)++;
-            }
-        }
-        printf("%s: %d uppercase, %d lowercase", st, pNumUpper, pNumLower);
+void countCase(char str[], int *pNumUpper, int *pNumLower);
+
+int main() {
+    char input[50];
+
+    while (scanf("%49s", input) == 1) {
+        int numUpper = 0, numLower = 0;
+        countCase(input, &numUpper, &numLower);
+        printf("%s: %d uppercase, %d lowercase\n", input, numUpper, numLower);
     }
+
+    return 0;
 }
 
-int main(){
-    char word[51];
-    while (1) {
-        if (fgets(word, sizeof(word), stdin) != EOF) {
-            // EOF encountered or an error occurred
-            break;
-        }
+void countCase(char str[], int *pNumUpper, int *pNumLower) {
+    *pNumUpper = 0;
+    *pNumLower = 0;
 
-        // Process the input (here, we're just printing it)
-        printf("You entered:\n %s", word);
-        break;
+    for (int i = 0; str[i] != '\0'; i++) {
+        if (isupper(str[i])) {
+            (*pNumUpper)++;
+        } else if (islower(str[i])) {
+            (*pNumLower)++;
+        }
     }
-    printf("aawd");
-    int pNumUpper = 0;
-    int pNumLower = 0;
-    countCase(word, &pNumUpper,&pNumLower);
 }
