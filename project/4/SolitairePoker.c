@@ -104,7 +104,32 @@ int main(int argc, char ** argv) {
             //EVAL REPPORT AND SAVE INFO FOR LATER
         //GENERATE SCORESHEET USING INFO
     for (int i ==0; i<10;i++){
-
+        int hand[5];
+        for (int j ==0; j<5;j++){
+            hand[j] = nextcard();
+        }
+        printf("Your hand is:\n");
+        for (int j ==0; j<5;j++){
+            printf("%s-%s ", rankNames[getrank(hand[j])], suitNames[getsuit(hand[j])]);
+        }
+        printf("\n")
+        printf("Select up to three cards to replace[1-5] and press enter\n");
+        for (int j ==0; j<5;j++){
+            printf("%s-%s ", rankNames[getrank(hand[j])], suitNames[getsuit(hand[j])]);
+        }
+        printf("\n")
+        int discard[3];
+        for (int j ==0; j<3;j++){
+            scanf("%d", &discard[j]);
+        }
+        for (int j ==0; j<3;j++){
+            hand[discard[j]] = nextcard();
+        }
+        for (int j ==0; j<5;j++){
+            printf("%s-%s", rankNames[getrank(hand[j])], suitNames[getsuit(hand[j])]);
+        }
+        printf("\n")
+        // printf("You have a %s\n", handNames[eval(hand)]);
     }
     return 0;
 }
@@ -114,13 +139,12 @@ int main(int argc, char ** argv) {
 
 // Function to get the suit of a card
 enum suits getsuit(int card){
-    return
-    return 0;
+    return suitNames[card];
 }
 
 // Function to get the rank of a card
 enum ranks getrank(int card){
-    return 0;
+    return rankNames[card];
 }
 // Function to evaluate the poker hand
 enum hands eval(int hand[]){
@@ -164,10 +188,15 @@ int threekind(int hand[]){
 
 // Function to check for two pairs
 int twopair(int hand[]){
+    int st[5];
+    for (int i = 0; i < 5; i++){
+        st[hand[i]-1] ++; 
+    }
     return 0;
 }
 
 // Function to check for a pair
 int pair(int hand[]){
+
     return 0;
 }
