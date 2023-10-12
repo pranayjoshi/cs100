@@ -103,7 +103,9 @@ int main(int argc, char ** argv) {
             //SHOW FINAL HAND
             //EVAL REPPORT AND SAVE INFO FOR LATER
         //GENERATE SCORESHEET USING INFO
-    
+    for (int i ==0; i<10;i++){
+
+    }
     return 0;
 }
 
@@ -112,6 +114,7 @@ int main(int argc, char ** argv) {
 
 // Function to get the suit of a card
 enum suits getsuit(int card){
+    return
     return 0;
 }
 
