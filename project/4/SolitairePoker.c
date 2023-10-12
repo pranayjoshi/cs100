@@ -9,11 +9,11 @@
 
  */
 
-#include <stdio.h>
-#include <string.h>
+#include <stdio.h> 
+#include <string.h> 
 #include <stdlib.h>
 #include <time.h>
-
+#include <ctype.h>
 //do not remove
 #include "studentinclude.code" //Include custom header file (it contains necessary functions)
 //A version of the file:include.code is available from the assignment page
@@ -90,6 +90,18 @@ int twopair(int []);
 int pair(int []);
 
 
+
+char* strToLower(const char* str) {
+    char* result = strdup(str);
+
+    for (int i = 0; result[i]; i++) {
+        result[i] = tolower(result[i]);
+    }
+
+    return result;
+}
+
+
 int main(int argc, char ** argv) {
     //do not remove
     seed(argc, argv); // Seed the random number generator
@@ -103,6 +115,13 @@ int main(int argc, char ** argv) {
             //SHOW FINAL HAND
             //EVAL REPPORT AND SAVE INFO FOR LATER
         //GENERATE SCORESHEET USING INFO
+    // printf("%s",strlwr(rankNames[0]));
+    // for (int i = 0; i < sizeof(sizeRank); i++){
+    //     strlwr(rankNames[i]);
+    // }
+    // for (int i = 0; i < sizeof(sizeSuit); i++){
+    //     strlwr(suitNames[i]);
+    // }
     for (int i =0; i<10;i++){
         int hand[5];
         for (int j =0; j<5;j++){
@@ -110,23 +129,21 @@ int main(int argc, char ** argv) {
         }
         printf("Your hand is: %d\n", hand[2]);
         for (int j =0; j<5;j++){
-            printf("%s-%s ", rankNames[getrank(hand[j])], suitNames[getsuit(hand[j])]);
+            printf("%s-%s   ", strToLower(suitNames[getsuit(hand[j])]), strToLower(rankNames[getrank(hand[j])]));
         }
         printf("\n");
         printf("Select up to three cards to replace[1-5] and press enter\n");
         for (int j =0; j<5;j++){
-            printf("%s-%s ", rankNames[getrank(hand[j])], suitNames[getsuit(hand[j])]);
+            printf("%s-%s   ", strToLower(suitNames[getsuit(hand[j])]), strToLower(rankNames[getrank(hand[j])]));
         }
         printf("\n");
         int discard[3];
-        for (int j =0; j<3;j++){
-            scanf("%d", &discard[j]);
-        }
+        scanf("%d %d %d", &discard[0], &discard[1], &discard[2]);
         for (int j =0; j<3;j++){
             hand[discard[j]] = nextcard();
         }
         for (int j =0; j<5;j++){
-            printf("%s-%s", rankNames[getrank(hand[j])], suitNames[getsuit(hand[j])]);
+            printf("%s-%s   ", strToLower(suitNames[getsuit(hand[j])]), strToLower(rankNames[getrank(hand[j])]));
         }
         printf("\n");
         // printf("You have a %s\n", handNames[eval(hand)]);
@@ -139,12 +156,12 @@ int main(int argc, char ** argv) {
 
 // Function to get the suit of a card
 enum suits getsuit(int card){
-    return *suitNames[card/13];
+    return card/13;
 }
 
 // Function to get the rank of a card
 enum ranks getrank(int card){
-    return *rankNames[card/4];
+    return card/4;
 }
 // Function to evaluate the poker hand
 enum hands eval(int hand[]){
