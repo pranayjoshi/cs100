@@ -1,0 +1,74 @@
+
+void instructions(){
+    printf("\n\n\n\n"
+           "\t********************************************************************************\n"
+           "\t*                         Welcome to Solitaire Poker                           *\n"
+           "\t********************************************************************************\n"
+           "\t\n"
+           "\tSolitaire Poker is based on Five Card Draw -- a classic poker game\n"
+           "\tthat's relatively simple. Here are the basic rules for playing:\n"
+           "\t\n"
+           "\tObjective: The goal of the game is to make standard five-card poker hands.\n"
+           "\t\n"
+           "\tSetup: A standard 52-card deck is used. The player is dealt five random cards.\n"
+           "\tGameplay: Players can choose to replace up to three cards.\n"
+           "\tScoring: Players score points for each hand made.\n"
+           "\t\n"
+           "\t* 50 Royal Flush: A, K, Q, J, 10, all of the same suit.\n"
+           "\t* 45 Straight Flush: Five consecutive cards of the same suit (e.g., 9, 8, 7, 6, 5 of hearts).\n"
+           "\t* 40 Four of a Kind: Four cards of the same rank (e.g., four 7s).\n"
+           "\t* 32 Full House: Three cards of one rank and two cards of another rank (e.g., three 9s and two 4s).\n"
+           "\t* 26 Flush: Five cards of the same suit, not in sequence.\n"
+           "\t* 17 Straight: Five consecutive cards of different suits.\n"
+           "\t* 11 Three of a Kind: Three cards of the same rank.\n"
+           "\t*  7 Two Pair: Two sets of pairs (e.g., two 10s and two 7s).\n"
+           "\t*  3 One Pair: Two cards of the same rank.\n"
+           "\t*  1 High Card: If none of the above combinations are made.\n"
+           "\t\n"
+           "\tEnding: The game ends after 10 hands are played.\n"
+           "\t********************************************************************************\n\n\n");
+}
+
+int private_nextcard(int private_shuffle){
+    //static is permanant/persistant across calls
+    static int deck[52] = {0};//first time init
+    static int top = 0;
+    static int counter = 0;
+    if (private_shuffle){
+        top = 52;//new shuffle
+        return 0;
+    }
+    if (52==top){//first time through
+        for (int card = 0; card < 52; card++){
+            deck[card]=card;//build the deck
+        }
+        //now shuffle
+        for (int card = 0; card < 52; card++){
+            int random = rand()%52;
+            int shuffled = deck[card];
+            deck[card] = deck[random];
+            deck[random]=shuffled;
+        }
+    }
+    if (top) {
+        return deck[--top];
+    }
+    else
+    {
+        printf("cards exhausted, building new deck\n");
+        private_nextcard(1);
+        return private_nextcard(0);
+    }
+}
+
+void seed(int argc, char ** argv){
+    srand(time(NULL)); // Initialize random seed
+    if (argc>1){
+        int i;
+        if (1 == sscanf(argv[1],"%d",&i)){
+            srand(i);
+        }
+    }
+}
+
+
