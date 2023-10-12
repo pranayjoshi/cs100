@@ -122,6 +122,7 @@ int main(int argc, char ** argv) {
     // for (int i = 0; i < sizeof(sizeSuit); i++){
     //     strlwr(suitNames[i]);
     // }
+    printf("%d", twopair((int[]){0,9,9,4,4}));
     for (int i =0; i<10;i++){
         int hand[5];
         for (int j =0; j<5;j++){
@@ -205,15 +206,36 @@ int threekind(int hand[]){
 
 // Function to check for two pairs
 int twopair(int hand[]){
-    int st[5];
+    int st[13] = {0};
     for (int i = 0; i < 5; i++){
-        st[hand[i]-1] ++; 
+        st[hand[i]%13] ++; 
+    }
+    int count = 0;
+    for (int i = 0; i < 5; i++){
+        if (st[i] == 2){
+            count++;
+        }
+    }
+    if (count == 2){
+        return 1;
     }
     return 0;
 }
 
 // Function to check for a pair
 int pair(int hand[]){
-
+    int st[5];
+    for (int i = 0; i < 5; i++){
+        st[hand[i]%13] ++; 
+    }
+    int count = 0;
+    for (int i = 0; i < 5; i++){
+        if (st[i] == 2){
+            count++;
+        }
+    }
+    if (count == 2){
+        return 1;
+    }
     return 0;
 }
