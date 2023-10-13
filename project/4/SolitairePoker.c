@@ -104,7 +104,7 @@ int Count(int [],int, int);
 
 int calcEval(enum hands);
 
-void Printer(int [][], int[]);
+void Printer(int [10][5], int[]);
 
 
 int main(int argc, char ** argv) {
@@ -159,10 +159,30 @@ int main(int argc, char ** argv) {
         evals[i] = eval(hand);
         printf("Hand  %d: Score:    %d %s\n", i+1, calcEval(eval(hand)), handNames[eval(hand)]);
     }
+
+    Printer(vals, evals);
     return 0;
 }
 
-void Printer(int vals[][],)
+void Printer(int vals[10][5], int evals[]){
+
+    printf("********************************************************************************\n");
+    printf("***                         S C O R E S H E E T                              ***\n");
+    printf("********************************************************************************\n");
+    int points = 0;
+    for (int i = 0; i < 10; i++){
+        points += calcEval(evals[i]);
+        printf("Hand  %d: Score:    %d %s      [%d   %s-%s   %d   %s-%s  %d   %s-%s  %d   %s-%s %d   %s-%s   ]\n",
+        i+1, calcEval(evals[i]), handNames[evals[i]], vals[i][0], suitNames[getsuit(vals[i][0])], rankNames[getrank(vals[i][0])],
+        vals[i][1], suitNames[getsuit(vals[i][1])], rankNames[getrank(vals[i][1])],
+        vals[i][2], suitNames[getsuit(vals[i][2])], rankNames[getrank(vals[i][2])],
+        vals[i][3], suitNames[getsuit(vals[i][3])], rankNames[getrank(vals[i][3])],
+        vals[i][4], suitNames[getsuit(vals[i][4])], rankNames[getrank(vals[i][4])]);
+    }
+    printf("==============================================================================\n");
+    printf("Total points:      %d\n", points);
+    printf("==============================================================================\n");
+}
 
 // Function to get the suit of a card
 enum suits getsuit(int card){
