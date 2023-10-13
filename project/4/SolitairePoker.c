@@ -90,7 +90,6 @@ int twopair(int []);
 int pair(int []);
 
 
-
 char* strToLower(const char* str) {
     char* result = strdup(str);
 
@@ -102,6 +101,10 @@ char* strToLower(const char* str) {
 }
 
 int Count(int [],int, int);
+
+int calcEval(enum hands);
+
+void Printer(int [][], int[]);
 
 
 int main(int argc, char ** argv) {
@@ -124,13 +127,16 @@ int main(int argc, char ** argv) {
     // for (int i = 0; i < sizeof(sizeSuit); i++){
     //     strlwr(suitNames[i]);
     // }
-    printf("%d", flush((int[]){2,3,4,5,7}));
+
+    int vals[10][5];
+    int evals[10];
+
+    // printf("%d", royalflush((int[]){8,9,10,11,12}));
     for (int i =0; i<10;i++){
         int hand[5];
         for (int j =0; j<5;j++){
             hand[j] = nextcard();
         }
-        printf("Your hand is: %d\n", hand[2]);
         for (int j =0; j<5;j++){
             printf("%s-%s   ", strToLower(suitNames[getsuit(hand[j])]), strToLower(rankNames[getrank(hand[j])]));
         }
@@ -146,16 +152,17 @@ int main(int argc, char ** argv) {
             hand[discard[j]] = nextcard();
         }
         for (int j =0; j<5;j++){
+            vals[i][j] = hand[j];
             printf("%s-%s   ", strToLower(suitNames[getsuit(hand[j])]), strToLower(rankNames[getrank(hand[j])]));
         }
         printf("\n");
-        // printf("You have a %s\n", handNames[eval(hand)]);
+        evals[i] = eval(hand);
+        printf("Hand  %d: Score:    %d %s\n", i+1, calcEval(eval(hand)), handNames[eval(hand)]);
     }
     return 0;
 }
 
-//TODO:
-//THE FOLLOWING STUBS NEED TO BE IMPLEMENTED CORRECTLY
+void Printer(int vals[][],)
 
 // Function to get the suit of a card
 enum suits getsuit(int card){
@@ -170,18 +177,84 @@ enum ranks getrank(int card){
 enum hands eval(int hand[]){
     int value = 1;
     if (royalflush(hand)){
-        
+        value = 10;
+    }
+    if (straightflush(hand)){
+        value = 9;
+    }
+    if (fourofkind(hand)){
+        value = 8;
+    }
+    if (fullhouse(hand)){
+        value = 7;
+    }
+    if (flush(hand)){
+        value = 6;
+    }
+    if (straight(hand)){
+        value = 5;
+    }
+    if (threekind(hand)){
+        value = 4;
+    }
+    if (twopair(hand)){
+        value = 3;
+    }
+    if (pair(hand)){
+        value = 2;
     }
     return value;
 }
 
+int calcEval(enum hands x){
+    if (x == 10){
+        return 50;
+    }
+    if (x == 9){
+        return 45;
+    }
+    if (x == 8){
+        return 40;
+    }
+    if (x == 7){
+        return 32;
+    }
+    if (x == 6){
+        return 26;
+    }
+    if (x == 5){
+        return 17;
+    }
+    if (x == 4){
+        return 11;
+    }
+    if (x == 3){
+        return 7;
+    }
+    if (x == 2){
+        return 3;
+    }
+    if (x == 1){
+        return 1;
+    }
+    return 0;
+}
+
 // Function to check for a royal flush
 int royalflush(int hand[]){
+    if (straightflush(hand)){
+        if (hand[0]%12 == 0){
+            return 1;
+        }
+    }
     return 0;
 }
 
 // Function to check for a straight flush
 int straightflush(int hand[]){
+    if (flush(hand) && straight(hand)){
+        return 1;
+    }
     return 0;
 }
 
