@@ -130,11 +130,11 @@ int main(int argc, char ** argv) {
 
     int vals[10][5];
     int evals[10];
-    // int test[5] = {26,36,35,38,37};
-    // printf("%d", royalflush(test));
-    // for (int j =0; j<5;j++){
-    //         printf("%s-%s   ", strToLower(suitNames[getsuit(test[j])]), strToLower(rankNames[getrank(test[j])]));
-    // }
+    int test[5] = {4,32,8,18,20};
+    printf("%d", twopair(test));
+    for (int j =0; j<5;j++){
+            printf("%s-%s   ", strToLower(suitNames[getsuit(test[j])]), strToLower(rankNames[getrank(test[j])]));
+    }
     for (int i =0; i<10;i++){
         int hand[5];
         for (int j =0; j<5;j++){
