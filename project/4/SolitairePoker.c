@@ -130,11 +130,14 @@ int main(int argc, char ** argv) {
 
     int vals[10][5];
     int evals[10];
+
     // int test[5] = {39, 51, 50, 49, 48};
     // printf("%d", eval(test));
     // for (int j =0; j<5;j++){
     //         printf("%s-%s   ", strToLower(suitNames[getsuit(test[j])]), strToLower(rankNames[getrank(test[j])]));
     // }
+    // printf("\n");
+
     for (int i =0; i<10;i++){
         int hand[5];
         shuffle();
@@ -145,6 +148,7 @@ int main(int argc, char ** argv) {
             printf("%s-%s   ", strToLower(suitNames[getsuit(hand[j])]), strToLower(rankNames[getrank(hand[j])]));
         }
         printf("\n");
+
         printf("Select up to three cards to replace[1-5] and press enter\n");
         for (int j =0; j<5;j++){
             printf("%s-%s   ", strToLower(suitNames[getsuit(hand[j])]), strToLower(rankNames[getrank(hand[j])]));
@@ -165,6 +169,7 @@ int main(int argc, char ** argv) {
             printf("%s-%s   ", strToLower(suitNames[getsuit(hand[j])]), strToLower(rankNames[getrank(hand[j])]));
         }
         printf("\n");
+        
         evals[i] = eval(hand);
         printf("Hand  %d: Score:    %d %s\n", i+1, calcEval(eval(hand)), handNames[eval(hand)]);
     }
