@@ -130,13 +130,14 @@ int main(int argc, char ** argv) {
 
     int vals[10][5];
     int evals[10];
-    int test[5] = {4,32,8,18,20};
-    printf("%d", twopair(test));
-    for (int j =0; j<5;j++){
-            printf("%s-%s   ", strToLower(suitNames[getsuit(test[j])]), strToLower(rankNames[getrank(test[j])]));
-    }
+    // int test[5] = {39, 51, 50, 49, 48};
+    // printf("%d", eval(test));
+    // for (int j =0; j<5;j++){
+    //         printf("%s-%s   ", strToLower(suitNames[getsuit(test[j])]), strToLower(rankNames[getrank(test[j])]));
+    // }
     for (int i =0; i<10;i++){
         int hand[5];
+        shuffle();
         for (int j =0; j<5;j++){
             hand[j] = nextcard();
         }
@@ -156,7 +157,7 @@ int main(int argc, char ** argv) {
         int discard[3];
         int count = sscanf(input, "%d %d %d", &discard[0], &discard[1], &discard[2]);
         for (int j =0; j<count;j++){
-            hand[discard[j-1]] = nextcard();
+            hand[discard[j]-1] = nextcard();
         }
 
         for (int j =0; j<5;j++){
@@ -207,28 +208,28 @@ enum hands eval(int hand[]){
     if (royalflush(hand)){
         value = 10;
     }
-    if (straightflush(hand)){
+    else if (straightflush(hand)){
         value = 9;
     }
-    if (fourofkind(hand)){
+    else if (fourofkind(hand)){
         value = 8;
     }
-    if (fullhouse(hand)){
+    else if (fullhouse(hand)){
         value = 7;
     }
-    if (flush(hand)){
+    else if (flush(hand)){
         value = 6;
     }
-    if (straight(hand)){
+    else if (straight(hand)){
         value = 5;
     }
-    if (threekind(hand)){
+    else if (threekind(hand)){
         value = 4;
     }
-    if (twopair(hand)){
+    else if (twopair(hand)){
         value = 3;
     }
-    if (pair(hand)){
+    else if (pair(hand)){
         value = 2;
     }
     return value;
@@ -321,9 +322,8 @@ int straight(int hand[]){
         if (st[ind] == 1){
             break;
         }
-        ind++;
     }
-    // printf("%d", ind);
+    
     for (int i = ind; i < ind+5; i++){
         if (st[i] != 1){
             return 0;
