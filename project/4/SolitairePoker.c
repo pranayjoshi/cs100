@@ -146,11 +146,16 @@ int main(int argc, char ** argv) {
             printf("%s-%s   ", strToLower(suitNames[getsuit(hand[j])]), strToLower(rankNames[getrank(hand[j])]));
         }
         printf("\n");
+        
+
+        char input[100];
+        fgets(input, sizeof(input), stdin);
         int discard[3];
-        scanf("%d %d %d", &discard[0], &discard[1], &discard[2]);
-        for (int j =0; j<3;j++){
+        int count = sscanf(input, "%d %d %d", &discard[0], &discard[1], &discard[2]);
+        for (int j =0; j<count;j++){
             hand[discard[j]] = nextcard();
         }
+        
         for (int j =0; j<5;j++){
             vals[i][j] = hand[j];
             printf("%s-%s   ", strToLower(suitNames[getsuit(hand[j])]), strToLower(rankNames[getrank(hand[j])]));
