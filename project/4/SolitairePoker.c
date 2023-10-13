@@ -101,6 +101,8 @@ char* strToLower(const char* str) {
     return result;
 }
 
+int Count(int [],int, int);
+
 
 int main(int argc, char ** argv) {
     //do not remove
@@ -122,7 +124,7 @@ int main(int argc, char ** argv) {
     // for (int i = 0; i < sizeof(sizeSuit); i++){
     //     strlwr(suitNames[i]);
     // }
-    printf("%d", twopair((int[]){0,9,9,4,4}));
+    printf("%d", flush((int[]){2,3,4,5,7}));
     for (int i =0; i<10;i++){
         int hand[5];
         for (int j =0; j<5;j++){
@@ -166,7 +168,11 @@ enum ranks getrank(int card){
 }
 // Function to evaluate the poker hand
 enum hands eval(int hand[]){
-    return 0;
+    int value = 1;
+    if (royalflush(hand)){
+        
+    }
+    return value;
 }
 
 // Function to check for a royal flush
@@ -181,41 +187,73 @@ int straightflush(int hand[]){
 
 // Function to check for a flush
 int flush(int hand[]){
+    int st[4] = {0};
+    for (int i = 0; i < 5; i++){
+        st[hand[i]/13] ++; 
+    }
+    int ind;
+    for (ind = 0; ind < 4; ind++){
+        if (st[ind] == 5){
+            return 1;
+        }
+    }
     return 0;
 }
 
 // Function to check for a straight
 int straight(int hand[]){
-    return 0;
+    int st[13] = {0};
+    for (int i = 0; i < 5; i++){
+        st[hand[i]%13] ++; 
+    }
+    int ind;
+    for (ind = 0; ind < 13; ind++){
+        if (st[ind] == 1){
+            break;
+        }
+        ind++;
+    }
+    for (int i = ind; i < ind+5; i++){
+        if (st[i] != 1){
+            return 0;
+        }
+    }
+    return 1;
 }
 
 // Function to check for four of a kind
 int fourofkind(int hand[]){
+    int count = Count(hand, 5, 4);
+    if (count == 1){
+        return 1;
+    }
     return 0;
 }
 
 // Function to check for a full house
 int fullhouse(int hand[]){
+    int count = Count(hand, 5, 3);
+    if (count == 1){
+        int count2 = Count(hand, 5, 2);
+        if (count2 == 1){
+            return 1;
+        }
+    }
     return 0;
 }
 
 // Function to check for three of a kind
 int threekind(int hand[]){
+    int count = Count(hand, 5, 3);
+    if (count == 1){
+        return 1;
+    }
     return 0;
 }
 
 // Function to check for two pairs
 int twopair(int hand[]){
-    int st[13] = {0};
-    for (int i = 0; i < 5; i++){
-        st[hand[i]%13] ++; 
-    }
-    int count = 0;
-    for (int i = 0; i < 5; i++){
-        if (st[i] == 2){
-            count++;
-        }
-    }
+    int count = Count(hand, 5, 2);
     if (count == 2){
         return 1;
     }
@@ -224,18 +262,24 @@ int twopair(int hand[]){
 
 // Function to check for a pair
 int pair(int hand[]){
-    int st[5];
-    for (int i = 0; i < 5; i++){
-        st[hand[i]%13] ++; 
-    }
-    int count = 0;
-    for (int i = 0; i < 5; i++){
-        if (st[i] == 2){
-            count++;
-        }
-    }
-    if (count == 2){
+    int count = Count(hand, 5, 2);
+    if (count == 1){
         return 1;
     }
     return 0;
+}
+
+
+int Count(int hand[], int size, int num){
+    int st[13] = {0};
+    for (int i = 0; i < size; i++){
+        st[hand[i]%13] ++; 
+    }
+    int count = 0;
+    for (int i = 0; i < 13; i++){
+        if (st[i] == num){
+            count++;
+        }
+    }
+    return count;
 }
