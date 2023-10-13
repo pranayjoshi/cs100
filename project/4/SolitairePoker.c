@@ -15,7 +15,7 @@
 #include <time.h>
 #include <ctype.h>
 //do not remove
-#include "studentinclude.code" //Include custom header file (it contains necessary functions)
+#include "include.code" //Include custom header file (it contains necessary functions)
 //A version of the file:include.code is available from the assignment page
 //as studentinclude.code which you should save locally as include.code
 //include.code contains implementations for seed, instructions, and private_nextcard(int)
@@ -130,8 +130,11 @@ int main(int argc, char ** argv) {
 
     int vals[10][5];
     int evals[10];
-
-    // printf("%d", royalflush((int[]){8,9,10,11,12}));
+    // int test[5] = {26,36,35,38,37};
+    // printf("%d", royalflush(test));
+    // for (int j =0; j<5;j++){
+    //         printf("%s-%s   ", strToLower(suitNames[getsuit(test[j])]), strToLower(rankNames[getrank(test[j])]));
+    // }
     for (int i =0; i<10;i++){
         int hand[5];
         for (int j =0; j<5;j++){
@@ -153,9 +156,9 @@ int main(int argc, char ** argv) {
         int discard[3];
         int count = sscanf(input, "%d %d %d", &discard[0], &discard[1], &discard[2]);
         for (int j =0; j<count;j++){
-            hand[discard[j]] = nextcard();
+            hand[discard[j-1]] = nextcard();
         }
-        
+
         for (int j =0; j<5;j++){
             vals[i][j] = hand[j];
             printf("%s-%s   ", strToLower(suitNames[getsuit(hand[j])]), strToLower(rankNames[getrank(hand[j])]));
@@ -177,7 +180,7 @@ void Printer(int vals[10][5], int evals[]){
     int points = 0;
     for (int i = 0; i < 10; i++){
         points += calcEval(evals[i]);
-        printf("Hand  %d: Score:    %d %s      [%d   %s-%s   %d   %s-%s  %d   %s-%s  %d   %s-%s %d   %s-%s   ]\n",
+        printf("Hand%3d: Score:%6d %-14s[%2d %7s-%-5s %2d %7s-%-5s %2d %7s-%-5s %2d %7s-%-5s %2d %7s-%-5s ]\n",
         i+1, calcEval(evals[i]), handNames[evals[i]], vals[i][0], suitNames[getsuit(vals[i][0])], rankNames[getrank(vals[i][0])],
         vals[i][1], suitNames[getsuit(vals[i][1])], rankNames[getrank(vals[i][1])],
         vals[i][2], suitNames[getsuit(vals[i][2])], rankNames[getrank(vals[i][2])],
@@ -196,7 +199,7 @@ enum suits getsuit(int card){
 
 // Function to get the rank of a card
 enum ranks getrank(int card){
-    return card/4;
+    return card%13;
 }
 // Function to evaluate the poker hand
 enum hands eval(int hand[]){
@@ -268,10 +271,13 @@ int calcEval(enum hands x){
 // Function to check for a royal flush
 int royalflush(int hand[]){
     if (straightflush(hand)){
-        if (hand[0]%12 == 0){
-            return 1;
+        for (int i = 0; i < 5; i++){
+            if (hand[i]%13 == 0){
+                return 1;
+            }
         }
     }
+    
     return 0;
 }
 
@@ -301,8 +307,14 @@ int flush(int hand[]){
 // Function to check for a straight
 int straight(int hand[]){
     int st[13] = {0};
+    
     for (int i = 0; i < 5; i++){
-        st[hand[i]%13] ++; 
+        if (hand[i]%13 == 0 ){
+            st[12] ++; 
+        }
+        else {
+            st[hand[i]%13-1] ++;
+        } 
     }
     int ind;
     for (ind = 0; ind < 13; ind++){
@@ -311,6 +323,7 @@ int straight(int hand[]){
         }
         ind++;
     }
+    // printf("%d", ind);
     for (int i = ind; i < ind+5; i++){
         if (st[i] != 1){
             return 0;
