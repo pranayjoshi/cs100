@@ -45,7 +45,7 @@ int getCount(char csvfile[], int testc, char *testv[]) {
     return count;
 }
 
-void printAddr(char csvfile[], int testc) {
+void printAddr(char csvfile[], int testc, char *testv[]) {
     char * data[1000][12];
     char line[300];
     int j = 0;
@@ -70,14 +70,14 @@ void printAddr(char csvfile[], int testc) {
         printf("\n");
     }
 
-    // for(int i=0;i<12;i++){
-    //     if(strcmp(data[1][i],testv[1])){
+    for(int i=0;i<12;i++){
+        if(strcmp(data[1][i],testv[1])){
             
-    //     }
-    // }
+        }
+    }
 }
 
 int main(){
     // FILE *fp=fopen("Sacramentorealestatetransactions.csv", "r");
-    printAddr("Sacramentorealestatetransactions.csv", 3);
+    printAddr("Sacramentorealestatetransactions.csv", 3, {""});
 }
