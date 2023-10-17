@@ -5,18 +5,20 @@ int main(int argc, char *argv[]) {
 
     FILE *file1 = fopen(argv[1], "r");
 
+    int i1;
     int sum = 0;
-    int i1 = fscanf(file1, "%d", &i1);
-    int i = 0;
-    while (i1 != EOF) {
+    int eof = fscanf(file1, "%d", &i1);
+    int i = 1;
+    while (eof != EOF) {
+        // printf("%d ", i1);
         sum+=i1;
-        if (i == 3) {
+        if (i == atoi(argv[2])) {
             printf("%d ", sum);
             sum = 0;
             i = 0;
         }
         i++;
-        i1 = fscanf(file1, "%d", &i1);
+        eof = fscanf(file1, "%d", &i1);
     }
 
     fclose(file1); 
