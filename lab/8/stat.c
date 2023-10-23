@@ -35,12 +35,11 @@ int getInt(char *prompt) {
 void getData(int n, int *array){
     // add your code here
     // No [] allowed in this function
-    array = (int*)malloc(n * sizeof(int));
     for (int i = 0; i < n; i++){
-        scanf("%d", &array[i]);
+        scanf("%d", &(array[i]));
     }
 }
-void calcMeanStdDev(int n, int *array, , double *pMean, double *pStdDev){
+void calcMeanAndStdDev(int n, int *array, double *pMean, double *pStdDev){
     double sum = 0;
     for (int i = 0; i < n; i++){
         sum += (double)array[i]*1.0;
