@@ -32,16 +32,23 @@ int getInt(char *prompt) {
 
 // Do not change anything above this line
 //
-// Scan in n (n>0) integers and store them in an array.
-void getData(int n, int *array) {
+void getData(int n, int *array){
     // add your code here
     // No [] allowed in this function
-
+    array = (int*)malloc(n * sizeof(int));
+    for (int i = 0; i < n; i++){
+        scanf("%d", &array[i]);
+    }
 }
-
-// Given an array of n (n>0) integers, Calculate the mean and standard deviation.
-void calcMeanAndStdDev(int n, int *array, double *pMean, double *pStdDev) {
-    // add your code here
-    // No [] allowed in this function
-
+void calcMeanStdDev(int n, int *array, , double *pMean, double *pStdDev){
+    double sum = 0;
+    for (int i = 0; i < n; i++){
+        sum += (double)array[i]*1.0;
+    }
+    *pMean = sum/(n*1.0);
+    sum = 0;
+    for (int i = 0; i < n; i++){
+        sum += pow((array[i] - *pMean),2);
+    }
+    *pStdDev = sqrt(sum/n);
 }
