@@ -26,22 +26,23 @@ void sort_triple(int *a, int *b, int *c) {
 }
 
 int main(int argc, char ** argv){
-    if (argc != 3) {
-        fprintf(stderr, "Usage: %s <input file> <output file>\n", argv[0]);
-        exit(1);
+    printf("argc: %d\n", argc);
+    printf("%s\n", *argv);
+    int a = -1;
+    int b = -1;
+    
+    for (int i =2; i < argc; i++) {
+        if(atoi(argv[i]) > a) {
+            a = atoi(argv[i]);
+        }
+        if (atoi(argv[i]) < b) {
+            b = atoi(argv[i]);
+        }
     }
+    printf("%d\n",argc);
+    printf("%s\n",*argv);
+    printf("%d\n", a);
+    printf("%d\n", b);
 
-    int a, b, c;
-
-    FILE *inputFile = fopen(argv[1], "r");
-    FILE *outputFile = fopen(argv[2], "w");
-
-    while (fscanf(inputFile, "%d %d %d", &a, &b, &c) == 3) {
-        sortTriple(&a, &b, &c);
-        fprintf(outputFile, "%d %d %d\n", a, b, c);
-    }
-
-    fclose(inputFile);
-    fclose(outputFile);
     return 0;
 }

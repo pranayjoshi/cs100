@@ -1,0 +1,8 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/pranayjoshi/Desktop/projects/cs100/lab/8/triples'
+relocations:
+  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: _sort_triple, symObjAddr: 0x0, symBinAddr: 0x100003DEC, symSize: 0xFC }
+  - { offsetInCU: 0x41, offset: 0x41, size: 0x8, addend: 0x0, symName: _sort_triple, symObjAddr: 0x0, symBinAddr: 0x100003DEC, symSize: 0xFC }
+  - { offsetInCU: 0xD5, offset: 0xD5, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0xFC, symBinAddr: 0x100003EE8, symSize: 0x9C }
+...
