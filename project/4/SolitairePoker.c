@@ -23,7 +23,6 @@
 //The version used during testing is slightly different but will not affect your efforts.
 //For testing you may modify studentinclude.code -- it will not be part of your submission.
 
-
 // Function to shuffle the deck
 //you should call this before each deal (including the first)
 void shuffle() {
@@ -100,9 +99,33 @@ char* strToLower(const char* str) {
     return result;
 }
 
-int Count(int [],int, int);
 
-int calcEval(enum hands);
+int calculateScore(enum hands pokerHandRank) {
+    switch (pokerHandRank) {
+        case ROYALFLUSH:
+            return 50;
+        case STRAIGHTFLUSH:
+            return 45;
+        case QUADS:
+            return 40;
+        case FULLHOUSE:
+            return 32;
+        case FLUSH:
+            return 26;
+        case STRAIGHT:
+            return 17;
+        case TRIPS:
+            return 11;
+        case TWOPAIR:
+            return 7;
+        case PAIR:
+            return 3;
+        case HIGHCARD:
+            return 1;
+        default:
+            return 0;
+    }
+}
 
 void Printer(int [10][5], int[]);
 
@@ -110,33 +133,10 @@ void Printer(int [10][5], int[]);
 int main(int argc, char ** argv) {
     //do not remove
     seed(argc, argv); // Seed the random number generator
-    instructions(); // Display game instructions
-
-    //TODO:
-        //WRITE CODE TO PLAY 10 HANDS OF POKER
-            //DEAL 5 CARDS
-            //SHOW DEALT HAND
-            //DRAW UP TO 3 CARDS
-            //SHOW FINAL HAND
-            //EVAL REPPORT AND SAVE INFO FOR LATER
-        //GENERATE SCORESHEET USING INFO
-    // printf("%s",strlwr(rankNames[0]));
-    // for (int i = 0; i < sizeof(sizeRank); i++){
-    //     strlwr(rankNames[i]);
-    // }
-    // for (int i = 0; i < sizeof(sizeSuit); i++){
-    //     strlwr(suitNames[i]);
-    // }
+    instructions();
 
     int vals[10][5];
     int evals[10];
-
-    // int test[5] = {39, 51, 50, 49, 48};
-    // printf("%d", eval(test));
-    // for (int j =0; j<5;j++){
-    //         printf("%s-%s   ", strToLower(suitNames[getsuit(test[j])]), strToLower(rankNames[getrank(test[j])]));
-    // }
-    // printf("\n");
 
     for (int i =0; i<10;i++){
         int hand[5];
@@ -154,14 +154,13 @@ int main(int argc, char ** argv) {
             printf("%s-%s   ", strToLower(suitNames[getsuit(hand[j])]), strToLower(rankNames[getrank(hand[j])]));
         }
         printf("\n");
+        char string1[100];
+        int remove[3];
+        fgets(string1, sizeof(string1), stdin);
         
-
-        char input[100];
-        fgets(input, sizeof(input), stdin);
-        int discard[3];
-        int count = sscanf(input, "%d %d %d", &discard[0], &discard[1], &discard[2]);
+        int count = sscanf(string1, "%d %d %d", &remove[0], &remove[1], &remove[2]);
         for (int j =0; j<count;j++){
-            hand[discard[j]-1] = nextcard();
+            hand[remove[j]-1] = nextcard();
         }
 
         for (int j =0; j<5;j++){
@@ -171,31 +170,22 @@ int main(int argc, char ** argv) {
         printf("\n");
         
         evals[i] = eval(hand);
-        printf("Hand  %d: Score:    %d %s\n", i+1, calcEval(eval(hand)), handNames[eval(hand)]);
+        printf("Hand  %d: Score:    %d %s\n", i+1, calculateScore(eval(hand)), handNames[eval(hand)]);
     }
 
-    Printer(vals, evals);
-    return 0;
-}
-
-void Printer(int vals[10][5], int evals[]){
-
-    printf("********************************************************************************\n");
-    printf("***                         S C O R E S H E E T                              ***\n");
-    printf("********************************************************************************\n");
+    printf("********************************************************************************\n***                         S C O R E S H E E T                              ***\n********************************************************************************\n");
     int points = 0;
     for (int i = 0; i < 10; i++){
-        points += calcEval(evals[i]);
+        points += calculateScore(evals[i]);
         printf("Hand%3d: Score:%6d %-14s[%2d %7s-%-5s %2d %7s-%-5s %2d %7s-%-5s %2d %7s-%-5s %2d %7s-%-5s ]\n",
-        i+1, calcEval(evals[i]), handNames[evals[i]], vals[i][0], suitNames[getsuit(vals[i][0])], rankNames[getrank(vals[i][0])],
+        i+1, calculateScore(evals[i]), handNames[evals[i]], vals[i][0], suitNames[getsuit(vals[i][0])], rankNames[getrank(vals[i][0])],
         vals[i][1], suitNames[getsuit(vals[i][1])], rankNames[getrank(vals[i][1])],
         vals[i][2], suitNames[getsuit(vals[i][2])], rankNames[getrank(vals[i][2])],
         vals[i][3], suitNames[getsuit(vals[i][3])], rankNames[getrank(vals[i][3])],
         vals[i][4], suitNames[getsuit(vals[i][4])], rankNames[getrank(vals[i][4])]);
     }
-    printf("==============================================================================\n");
-    printf("Total points:      %d\n", points);
-    printf("==============================================================================\n");
+    printf("==============================================================================\nTotal points:      %d\n==============================================================================\n",points);
+    return 0;
 }
 
 // Function to get the suit of a card
@@ -239,40 +229,8 @@ enum hands eval(int hand[]){
     }
     return value;
 }
+// Function to calculate a score based on the poker hand rank
 
-int calcEval(enum hands x){
-    if (x == 10){
-        return 50;
-    }
-    if (x == 9){
-        return 45;
-    }
-    if (x == 8){
-        return 40;
-    }
-    if (x == 7){
-        return 32;
-    }
-    if (x == 6){
-        return 26;
-    }
-    if (x == 5){
-        return 17;
-    }
-    if (x == 4){
-        return 11;
-    }
-    if (x == 3){
-        return 7;
-    }
-    if (x == 2){
-        return 3;
-    }
-    if (x == 1){
-        return 1;
-    }
-    return 0;
-}
 
 // Function to check for a royal flush
 int royalflush(int hand[]){
@@ -338,64 +296,98 @@ int straight(int hand[]){
 }
 
 // Function to check for four of a kind
-int fourofkind(int hand[]){
-    int count = Count(hand, 5, 4);
-    if (count == 1){
-        return 1;
+int fourofkind(int hand[]) {
+    int rankCount[15] = {0};
+
+    for (int i = 0; i < 5; i++) {
+        int rank = getrank(hand[i]);
+        rankCount[rank]++;
     }
+
+    for (int i = 0; i < 15; i++) {
+        if (rankCount[i] == 4) {
+            return 1;
+        }
+    }
+
     return 0;
 }
 
 // Function to check for a full house
-int fullhouse(int hand[]){
-    int count = Count(hand, 5, 3);
-    if (count == 1){
-        int count2 = Count(hand, 5, 2);
-        if (count2 == 1){
-            return 1;
+int fullhouse(int hand[]) {
+    int rankCount[15] = {0};
+
+    for (int i = 0; i < 5; i++) {
+        int rank = getrank(hand[i]);
+        rankCount[rank]++;
+    }
+
+    int hasThree = 0;
+    int hasTwo = 0;
+
+    for (int i = 0; i < 15; i++) {
+        if (rankCount[i] == 3) {
+            hasThree = 1;
+        }
+        if (rankCount[i] == 2) {
+            hasTwo = 1;
         }
     }
-    return 0;
+
+    return hasThree && hasTwo;
 }
 
 // Function to check for three of a kind
-int threekind(int hand[]){
-    int count = Count(hand, 5, 3);
-    if (count == 1){
-        return 1;
+int threekind(int hand[]) {
+    int rankCount[15] = {0};
+
+    for (int i = 0; i < 5; i++) {
+        int rank = getrank(hand[i]);
+        rankCount[rank]++;
     }
+
+    for (int i = 0; i < 15; i++) {
+        if (rankCount[i] == 3) {
+            return 1;
+        }
+    }
+
     return 0;
 }
 
 // Function to check for two pairs
-int twopair(int hand[]){
-    int count = Count(hand, 5, 2);
-    if (count == 2){
-        return 1;
+int twopair(int hand[]) {
+    int rankCount[15] = {0};
+    int pairCount = 0;
+
+    for (int i = 0; i < 5; i++) {
+        int rank = getrank(hand[i]);
+        rankCount[rank]++;
     }
-    return 0;
+
+    for (int i = 0; i < 15; i++) {
+        if (rankCount[i] == 2) {
+            pairCount++;
+        }
+    }
+
+    return pairCount == 2;
 }
 
 // Function to check for a pair
-int pair(int hand[]){
-    int count = Count(hand, 5, 2);
-    if (count == 1){
-        return 1;
-    }
-    return 0;
-}
+int pair(int hand[]) {
+    int rankCount[15] = {0};
 
-
-int Count(int hand[], int size, int num){
-    int st[13] = {0};
-    for (int i = 0; i < size; i++){
-        st[hand[i]%13] ++; 
+    for (int i = 0; i < 5; i++) {
+        int rank = getrank(hand[i]);
+        rankCount[rank]++;
     }
-    int count = 0;
-    for (int i = 0; i < 13; i++){
-        if (st[i] == num){
-            count++;
+
+    for (int i = 0; i < 15; i++) {
+        if (rankCount[i] == 2) {
+            return 1;
         }
     }
-    return count;
+
+    return 0;
 }
