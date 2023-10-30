@@ -4,27 +4,30 @@
 int main() {
     struct ItemToPurchase item1, item2;
     char c;
+
+    // Item 1
     printf("Item 1\n");
-    printf("Enter the item name: ");
-    scanf("%99[^\n]", item1.itemName);
+    printf("Enter the item name:\n");
+    scanf("%s", item1.itemName);
     while ((c = getchar()) != '\n' && c != EOF);
 
-    printf("Enter the item price: ");
+    printf("Enter the item price:\n");
     scanf("%d", &item1.itemPrice);
 
-    printf("Enter the item quantity: ");
+    printf("Enter the item quantity:\n");
     scanf("%d", &item1.itemQuantity);
-    
-    while ((c = getchar()) != '\n' && c != EOF);
-    printf("\nItem 2\n");
-    printf("Enter the item name: ");
-    scanf("%99[^\n]", item2.itemName);
+
     while ((c = getchar()) != '\n' && c != EOF);
 
-    printf("Enter the item price: ");
+    printf("\nItem 2\n");
+    printf("Enter the item name:\n");
+    scanf("%s", item2.itemName);
+    while ((c = getchar()) != '\n' && c != EOF);
+
+    printf("Enter the item price:\n");
     scanf("%d", &item2.itemPrice);
 
-    printf("Enter the item quantity: ");
+    printf("Enter the item quantity:\n");
     scanf("%d", &item2.itemQuantity);
 
     printf("\nTOTAL COST\n");
