@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "ItemToPurchase.h"
-
+#include <string.h>
 int main() {
     struct ItemToPurchase item1, item2;
     char c;
@@ -8,8 +8,12 @@ int main() {
     // Item 1
     printf("Item 1\n");
     printf("Enter the item name:\n");
-    scanf("%s", item1.itemName);
-    while ((c = getchar()) != '\n' && c != EOF);
+    fgets(item1.itemName, sizeof(item1.itemName), stdin);
+    c = item1.itemName[strlen(item1.itemName) - 1];
+    if (c == '\n') {
+        item1.itemName[strlen(item1.itemName) - 1] = '\0';
+    }
+    
 
     printf("Enter the item price:\n");
     scanf("%d", &item1.itemPrice);
@@ -21,8 +25,11 @@ int main() {
 
     printf("\nItem 2\n");
     printf("Enter the item name:\n");
-    scanf("%s", item2.itemName);
-    while ((c = getchar()) != '\n' && c != EOF);
+    fgets(item2.itemName, sizeof(item2.itemName), stdin);
+    c = item2.itemName[strlen(item2.itemName) - 1];
+    if (c == '\n') {
+        item2.itemName[strlen(item2.itemName) - 1] = '\0';
+    }
 
     printf("Enter the item price:\n");
     scanf("%d", &item2.itemPrice);
