@@ -1,39 +1,42 @@
 #include <stdio.h>
 #include "ItemToPurchase.h"
 #include <string.h>
+#include <stdlib.h>
+
+void SetItemName(ItemToPurchase* item, char* name) {
+    // item->itemName = (char*)malloc((strlen(name) + 1) * sizeof(char));
+    if (item->itemName != NULL) {
+        strcpy(item->itemName, name);
+    }
+}
+
 int main() {
-    struct ItemToPurchase item1, item2;
+    ItemToPurchase item1;
+    ItemToPurchase item2;
+
     char c;
 
-    // Item 1
-    printf("Item 1\n");
-    printf("Enter the item name:\n");
-    fgets(item1.itemName, sizeof(item1.itemName), stdin);
-    c = item1.itemName[strlen(item1.itemName) - 1];
-    if (c == '\n') {
-        item1.itemName[strlen(item1.itemName) - 1] = '\0';
-    }
-    
+    printf("Item 1\nEnter the item name:\n");
+    char itemName1[100];
+    fgets(itemName1, 100, stdin);
+    itemName1[strcspn(itemName1, "\n")] = 0;
+    SetItemName(&item1, itemName1);
 
     printf("Enter the item price:\n");
     scanf("%d", &item1.itemPrice);
-
     printf("Enter the item quantity:\n");
     scanf("%d", &item1.itemQuantity);
 
     while ((c = getchar()) != '\n' && c != EOF);
 
-    printf("\nItem 2\n");
-    printf("Enter the item name:\n");
-    fgets(item2.itemName, sizeof(item2.itemName), stdin);
-    c = item2.itemName[strlen(item2.itemName) - 1];
-    if (c == '\n') {
-        item2.itemName[strlen(item2.itemName) - 1] = '\0';
-    }
+    printf("\nItem 2\nEnter the item name:\n");
+    char itemName2[100];
+    fgets(itemName2, 100, stdin);
+    itemName2[strcspn(itemName2, "\n")] = 0;
+    SetItemName(&item2, itemName2);
 
     printf("Enter the item price:\n");
     scanf("%d", &item2.itemPrice);
-
     printf("Enter the item quantity:\n");
     scanf("%d", &item2.itemQuantity);
 

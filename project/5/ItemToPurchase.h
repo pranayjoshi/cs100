@@ -1,13 +1,13 @@
 #ifndef ITEMTOPURCHASE_H
 #define ITEMTOPURCHASE_H
 
-struct ItemToPurchase {
+typedef struct ItemToPurchase_struct {
     char itemName[100];
     int itemPrice;
     int itemQuantity;
-};
+} ItemToPurchase;
 
-void MakeItemBlank(struct ItemToPurchase* item);
-void PrintItemCost(const struct ItemToPurchase* item);
+void MakeItemBlank(ItemToPurchase* item);
+void PrintItemCost(ItemToPurchase* item);
 
 #endif
