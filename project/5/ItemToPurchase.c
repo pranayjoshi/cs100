@@ -6,6 +6,7 @@
 
 void MakeItemBlank(ItemToPurchase* item) {
     sprintf(item->itemName, "none");
+    sprintf(item->itemDescription, "none");
     item->itemPrice = 0;
     item->itemQuantity = 0;
 }
