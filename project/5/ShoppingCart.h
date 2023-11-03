@@ -7,3 +7,8 @@ typedef struct {
 
 void PrintMenu(ShoppingCart cart);
 void PrintCart(ShoppingCart cart);
+void OutputShoppingCart(ShoppingCart cart);
+void OutputItemDescriptions(ShoppingCart cart);
+void AddItemToCart(ShoppingCart *cart);
+void RemoveItemFromCart(ShoppingCart *cart);
+void ChangeItemQuantity(ShoppingCart *cart);
