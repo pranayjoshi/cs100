@@ -1,51 +1,20 @@
 #include <stdio.h>
-#include "ItemToPurchase.h"
-#include <string.h>
-#include <stdlib.h>
-
-void SetItemName(ItemToPurchase* item, char* name) {
-    // item->itemName = (char*)malloc((strlen(name) + 1) * sizeof(char));
-    if (item->itemName != NULL) {
-        strcpy(item->itemName, name);
-    }
-}
+#include "ShoppingCart.h"
 
 int main() {
-    ItemToPurchase item1;
-    ItemToPurchase item2;
+    ShoppingCart cart;
+    printf("Enter Customer's Name: ");
+    fgets(cart.customerName, sizeof(cart.customerName), stdin);
+    printf("Enter Today's Date: ");
+    fgets(cart.currentDate, sizeof(cart.currentDate), stdin);
 
-    char c;
+    printf("Customer Name: %s", cart.customerName);
+    printf("Today's Date: %s", cart.currentDate);
 
-    printf("Item 1\nEnter the item name:\n");
-    char itemName1[100];
-    fgets(itemName1, 100, stdin);
-    itemName1[strcspn(itemName1, "\n")] = 0;
-    SetItemName(&item1, itemName1);
-
-    printf("Enter the item price:\n");
-    scanf("%d", &item1.itemPrice);
-    printf("Enter the item quantity:\n");
-    scanf("%d", &item1.itemQuantity);
-
-    while ((c = getchar()) != '\n' && c != EOF);
-
-    printf("\nItem 2\nEnter the item name:\n");
-    char itemName2[100];
-    fgets(itemName2, 100, stdin);
-    itemName2[strcspn(itemName2, "\n")] = 0;
-    SetItemName(&item2, itemName2);
-
-    printf("Enter the item price:\n");
-    scanf("%d", &item2.itemPrice);
-    printf("Enter the item quantity:\n");
-    scanf("%d", &item2.itemQuantity);
-
-    printf("\nTOTAL COST\n");
-    PrintItemCost(&item1);
-    PrintItemCost(&item2);
-
-    int totalCost = (item1.itemQuantity * item1.itemPrice) + (item2.itemQuantity * item2.itemPrice);
-    printf("\nTotal: $%d\n", totalCost);
+    char choice;
+    do {
+        PrintMenu(cart);
+    } while(choice != 'q');
 
     return 0;
 }
