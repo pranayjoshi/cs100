@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "ShoppingCart.h"
 #include "ItemToPurchase.h"
+#include <string.h>
 
 void PrintMenu(ShoppingCart cart)
 {
