@@ -12,10 +12,7 @@ int main() {
     printf("Customer Name: %s", cart.customerName);
     printf("Today's Date: %s", cart.currentDate);
 
-    char choice;
-    do {
-        PrintMenu(cart);
-    } while(choice != 'q');
+    PrintMenu(cart);
 
     return 0;
 }

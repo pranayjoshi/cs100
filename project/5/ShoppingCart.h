@@ -1,3 +1,5 @@
+#include "ItemToPurchase.h"
+
 typedef struct {
     char customerName[100];
     char currentDate[100];
@@ -6,7 +8,6 @@ typedef struct {
 } ShoppingCart;
 
 void PrintMenu(ShoppingCart cart);
-void PrintCart(ShoppingCart cart);
 void OutputShoppingCart(ShoppingCart cart);
 void OutputItemDescriptions(ShoppingCart cart);
 void AddItemToCart(ShoppingCart *cart);
