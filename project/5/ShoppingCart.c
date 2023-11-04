@@ -53,7 +53,7 @@ void PrintTotal(ShoppingCart cart)
         return;
     }
     printf("%s's Shopping Cart - %s\n", cart.customerName, cart.currentDate);
-    printf("Number of Items:\n%d\n\n", cart.cartSize);
+    printf("Number of Items: %d\n\n", cart.cartSize);
     int totalCost = 0;
     for (int i = 0; i < cart.cartSize; ++i)
     {
@@ -80,10 +80,12 @@ void AddItem(ShoppingCart *cart)
     printf("Enter the item name:\n");
     getchar();
     fgets(item.itemName, sizeof(item.itemName), stdin);
+    item.itemName[strlen(cart.customerName) - 1] = '\0';
 
     printf("Enter the item description:\n");
     getchar();
     fgets(item.itemDescription, sizeof(item.itemDescription), stdin);
+    item.itemDescription[strlen(cart.customerName) - 1] = '\0';
 
     printf("Enter the item price:\n");
     scanf(" %d", &item.itemPrice);
@@ -102,6 +104,7 @@ void RemoveItem(ShoppingCart *cart)
     printf("Enter name of item to remove:\n");
     char itemName[100];
     fgets(itemName, sizeof(itemName), stdin);
+    itemName[strlen(itemName) - 1] = '\0';
 
     int found = 0;
     for (int i = 0; i < cart->cartSize; ++i)
@@ -129,6 +132,8 @@ void ModifyItem(ShoppingCart *cart)
     printf("Enter the item name:\n");
     char itemName[100];
     fgets(itemName, sizeof(itemName), stdin);
+    itemName[strlen(itemName) - 1] = '\0';
+
 
     printf("Enter the new quantity:\n");
     int itemQuantity;
