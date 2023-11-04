@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "ShoppingCart.h"
+#include "ItemToPurchase.h"
 
 void PrintMenu(ShoppingCart cart)
 {
@@ -9,7 +10,7 @@ void PrintMenu(ShoppingCart cart)
     printf("i - Output items' descriptions\n");
     printf("o - Output shopping cart\n");
     printf("q - Quit\n");
-    printf("Choose an option: ");
+    printf("Choose an option:\n");
     char choice;
     scanf(" %c", &choice);
 
@@ -46,7 +47,7 @@ void OutputShoppingCart(ShoppingCart cart)
 {
     printf("OUTPUT SHOPPING CART\n");
     printf("%s's Shopping Cart - %s\n", cart.customerName, cart.currentDate);
-    printf("Number of Items: %d\n\n", cart.cartSize);
+    printf("Number of Items:\n%d\n\n", cart.cartSize);
     int totalCost = 0;
     for (int i = 0; i < cart.cartSize; ++i)
     {
@@ -54,7 +55,7 @@ void OutputShoppingCart(ShoppingCart cart)
         totalCost += cart.cartItems[i].itemQuantity * cart.cartItems[i].itemPrice;
     }
 
-    printf("\nTotal: $%d\n", totalCost);
+    printf("\nTotal:\n$%d\n", totalCost);
 }
 
 void OutputItemDescriptions(ShoppingCart cart)
@@ -64,26 +65,26 @@ void OutputItemDescriptions(ShoppingCart cart)
     printf("Item Descriptions\n");
     for (int i = 0; i < cart.cartSize; ++i)
     {
-        printf("%s: %s\n", cart.cartItems[i].itemName, cart.cartItems[i].itemDescription);
+        printf("%s:\n%s\n", cart.cartItems[i].itemName, cart.cartItems[i].itemDescription);
     }
 }
 
 void AddItemToCart(ShoppingCart *cart)
 {
     printf("ADD ITEM TO CART\n");
-    printf("Enter the item name: ");
+    printf("Enter the item name:\n");
     char itemName[100];
-    scanf(" %[^\n]s", itemName);
+    scanf(" %s", itemName);
 
-    printf("Enter the item description: ");
+    printf("Enter the item description:\n");
     char itemDescription[100];
-    scanf(" %[^\n]s", itemDescription);
+    scanf(" %s", itemDescription);
 
-    printf("Enter the item price: ");
+    printf("Enter the item price:\n");
     int itemPrice;
     scanf(" %d", &itemPrice);
 
-    printf("Enter the item quantity: ");
+    printf("Enter the item quantity:\n");
     int itemQuantity;
     scanf(" %d", &itemQuantity);
 
@@ -99,12 +100,46 @@ void AddItemToCart(ShoppingCart *cart)
 
 void RemoveItemFromCart(ShoppingCart *cart)
 {
-    // Function logic to remove an item from cart
-    // You'll need to implement this
+    printf("REMOVE ITEM FROM CART\n");
+    printf("Enter name of item to remove:\n");
+    char itemName[100];
+    scanf(" %s", itemName);
+    
+    int found = 0;
+    for (int i = 0; i < cart->cartSize; ++i)
+    {
+        if (strcmp(cart->cartItems[i].itemName, itemName) == 0)
+        {
+            found = 1;
+            for (int j = i; j < cart->cartSize - 1; ++j)
+            {
+                cart->cartItems[j] = cart->cartItems[j + 1];
+            }
+            cart->cartSize--;
+            break;
+        }
+    }
+     
+
 }
 
 void ChangeItemQuantity(ShoppingCart *cart)
 {
-    // Function logic to change item quantity
-    // You'll need to implement this
+    printf("CHANGE ITEM QUANTITY\n");
+    printf("Enter the item name:\n");
+    char itemName[100];
+    scanf(" %s", itemName);
+
+    printf("Enter the new quantity:\n");
+    int itemQuantity;
+    scanf(" %d", &itemQuantity);
+
+    for (int i = 0; i < cart->cartSize; ++i)
+    {
+        if (strcmp(cart->cartItems[i].itemName, itemName) == 0)
+        {
+            cart->cartItems[i].itemQuantity = itemQuantity;
+            break;
+        }
+    }
 }

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "ShoppingCart.h"
+#include "ItemToPurchase.h"
 
 int main() {
     ShoppingCart cart;
