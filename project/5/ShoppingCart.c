@@ -40,15 +40,15 @@ void PrintMenu(ShoppingCart cart)
             break;
         case 'a':
             printf("ADD ITEM TO CART\n");
-            AddItem(&cart);
+            AddItemCaller(&cart);
             break;
         case 'r':
             printf("REMOVE ITEM FROM CART\n");
-            RemoveItem(&cart);
+            RemoveItemCaller(&cart);
             break;
         case 'c':
             printf("CHANGE ITEM QUANTITY\n");
-            ModifyItem(&cart);
+            ModifyItemCaller(&cart);
             break;
         case 'q':
             break;
@@ -85,9 +85,10 @@ void PrintDescriptions(ShoppingCart cart)
     }
 }
 
-void AddItem(ItemToPurchase item, ShoppingCart *cart) {
-    cart->cartItems[cart->cartSize] = item;
-    cart->cartSize++;
+ShoppingCart AddItem(ItemToPurchase item, ShoppingCart cart) {
+    cart.cartItems[cart.cartSize] = item;
+    cart.cartSize++;
+    return cart;
 }
 
 void AddItemCaller(ShoppingCart *cart)
@@ -108,28 +109,36 @@ void AddItemCaller(ShoppingCart *cart)
     printf("Enter the item quantity:\n");
     scanf(" %d", &item.itemQuantity);
 
-    AddItem(item, cart);
+    ShoppingCart newCart = AddItem(item, *cart);
+    // cart = &newCart;
+    *cart = newCart;
 }
 
-void RemoveItem(ShoppingCart *cart)
+
+void RemoveItemCaller(ShoppingCart *cart)
 {
     printf("Enter name of item to remove:\n");
     char itemName[100];
     getchar();
     fgets(itemName, sizeof(itemName), stdin);
     itemName[strlen(itemName) - 1] = '\0';
+    ShoppingCart newCart = RemoveItem(itemName, *cart);
+    cart = &newCart;
+}
 
+ShoppingCart RemoveItem(char itemName[], ShoppingCart cart)
+{
     int found = 0;
-    for (int i = 0; i < cart->cartSize; ++i)
+    for (int i = 0; i < cart.cartSize; ++i)
     {
-        if (strcmp(cart->cartItems[i].itemName, itemName) == 0)
+        if (strcmp(cart.cartItems[i].itemName, itemName) == 0)
         {
             found = 1;
-            for (int j = i; j < cart->cartSize - 1; ++j)
+            for (int j = i; j < cart.cartSize - 1; ++j)
             {
-                cart->cartItems[j] = cart->cartItems[j + 1];
+                cart.cartItems[j] = cart.cartItems[j + 1];
             }
-            cart->cartSize--;
+            cart.cartSize--;
             break;
         }
     }
@@ -138,9 +147,12 @@ void RemoveItem(ShoppingCart *cart)
     {
         printf("Item not found in cart. Nothing removed.\n");
     }
+
+    return cart;
 }
 
-void ModifyItem(ShoppingCart *cart)
+
+void ModifyItemCaller(ShoppingCart *cart)
 {
     printf("Enter the item name:\n");
     char itemName[100];
@@ -149,16 +161,25 @@ void ModifyItem(ShoppingCart *cart)
     itemName[strlen(itemName) - 1] = '\0';
 
     printf("Enter the new quantity:\n");
-    int itemQuantity;
-    scanf(" %d", &itemQuantity);
-    int found = 0;
+    int newQuantity;
+    scanf(" %d", &newQuantity);
 
-    for (int i = 0; i < cart->cartSize; ++i)
+    ItemToPurchase item;
+    strcpy(item.itemName, itemName);
+    item.itemQuantity = newQuantity;
+    ShoppingCart newCart = ModifyItem(item, *cart);
+    cart = &newCart;
+}
+
+ShoppingCart ModifyItem(ItemToPurchase item, ShoppingCart cart)
+{
+    int found = 0;
+    for (int i = 0; i < cart.cartSize; ++i)
     {
-        if (strcmp(cart->cartItems[i].itemName, itemName) == 0)
+        if (strcmp(cart.cartItems[i].itemName, item.itemName) == 0)
         {
             found = 1;
-            cart->cartItems[i].itemQuantity = itemQuantity;
+            cart.cartItems[i].itemQuantity = item.itemQuantity;
             break;
         }
     }
@@ -167,6 +188,7 @@ void ModifyItem(ShoppingCart *cart)
     {
         printf("Item not found in cart. Nothing modified.\n");
     }
+    return cart;
 }
 
 int GetNumItemsInCart(ShoppingCart cart)
