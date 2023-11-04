@@ -109,10 +109,12 @@ void RemoveItem(ShoppingCart *cart)
     char itemName[100];
     scanf(" %s", itemName);
 
+    int found = 0;
     for (int i = 0; i < cart->cartSize; ++i)
     {
         if (strcmp(cart->cartItems[i].itemName, itemName) == 0)
         {
+            found = 1;
             for (int j = i; j < cart->cartSize - 1; ++j)
             {
                 cart->cartItems[j] = cart->cartItems[j + 1];
@@ -120,6 +122,11 @@ void RemoveItem(ShoppingCart *cart)
             cart->cartSize--;
             break;
         }
+    }
+
+    if (!found)
+    {
+        printf("Item not found in cart. Nothing removed\n");
     }
 }
 
