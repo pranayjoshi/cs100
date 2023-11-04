@@ -47,8 +47,6 @@ void OutputShoppingCart(ShoppingCart cart)
     printf("OUTPUT SHOPPING CART\n");
     printf("%s's Shopping Cart - %s\n", cart.customerName, cart.currentDate);
     printf("Number of Items: %d\n\n", cart.cartSize);
-
-    // Loop through cart items and print details...
     int totalCost = 0;
     for (int i = 0; i < cart.cartSize; ++i)
     {
@@ -64,7 +62,6 @@ void OutputItemDescriptions(ShoppingCart cart)
     printf("OUTPUT ITEMS' DESCRIPTIONS\n");
     printf("%s's Shopping Cart - %s\n\n", cart.customerName, cart.currentDate);
     printf("Item Descriptions\n");
-    // Loop through cart items and print descriptions...
     for (int i = 0; i < cart.cartSize; ++i)
     {
         printf("%s: %s\n", cart.cartItems[i].itemName, cart.cartItems[i].itemDescription);
@@ -73,8 +70,31 @@ void OutputItemDescriptions(ShoppingCart cart)
 
 void AddItemToCart(ShoppingCart *cart)
 {
-    // Function logic to add an item to cart
-    // You'll need to implement this
+    printf("ADD ITEM TO CART\n");
+    printf("Enter the item name: ");
+    char itemName[100];
+    scanf(" %[^\n]s", itemName);
+
+    printf("Enter the item description: ");
+    char itemDescription[100];
+    scanf(" %[^\n]s", itemDescription);
+
+    printf("Enter the item price: ");
+    int itemPrice;
+    scanf(" %d", &itemPrice);
+
+    printf("Enter the item quantity: ");
+    int itemQuantity;
+    scanf(" %d", &itemQuantity);
+
+    ItemToPurchase item;
+    sprintf(item.itemName, "%s", itemName);
+    sprintf(item.itemDescription, "%s", itemDescription);
+    item.itemPrice = itemPrice;
+    item.itemQuantity = itemQuantity;
+
+    cart->cartItems[cart->cartSize] = item;
+    cart->cartSize++;
 }
 
 void RemoveItemFromCart(ShoppingCart *cart)
