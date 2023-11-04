@@ -6,11 +6,11 @@ int main() {
     ShoppingCart cart;
     printf("Enter Customer's Name:\n");
     fgets(cart.customerName, sizeof(cart.customerName), stdin);
-    printf("Enter Today's Dat\n");
+    printf("Enter Today's Date:\n");
     fgets(cart.currentDate, sizeof(cart.currentDate), stdin);
 
-    printf("Customer Nam\n%s", cart.customerName);
-    printf("Today's Dat\n%s", cart.currentDate);
+    printf("Customer Name:\n%s", cart.customerName);
+    printf("Today's Date:\n%s", cart.currentDate);
 
     PrintMenu(cart);
 
