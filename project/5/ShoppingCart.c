@@ -9,7 +9,7 @@ void PrintMenu(ShoppingCart cart)
     char choice = ' ';
     while (choice != 'q')
     {
-        printf("MENU\n");
+        printf("\nMENU\n");
         printf("a - Add item to cart\n");
         printf("c - Change item quantity\n");
         printf("i - Output items' descriptions\n");
