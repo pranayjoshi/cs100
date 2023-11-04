@@ -85,7 +85,12 @@ void PrintDescriptions(ShoppingCart cart)
     }
 }
 
-void AddItem(ShoppingCart *cart)
+void AddItem(ItemToPurchase item, ShoppingCart *cart) {
+    cart->cartItems[cart->cartSize] = item;
+    cart->cartSize++;
+}
+
+void AddItemCaller(ShoppingCart *cart)
 {
     ItemToPurchase item;
     printf("Enter the item name:\n");
@@ -103,8 +108,7 @@ void AddItem(ShoppingCart *cart)
     printf("Enter the item quantity:\n");
     scanf(" %d", &item.itemQuantity);
 
-    cart->cartItems[cart->cartSize] = item;
-    cart->cartSize++;
+    AddItem(item, cart);
 }
 
 void RemoveItem(ShoppingCart *cart)
