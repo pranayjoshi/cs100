@@ -123,7 +123,7 @@ void RemoveItemCaller(ShoppingCart *cart)
     fgets(itemName, sizeof(itemName), stdin);
     itemName[strlen(itemName) - 1] = '\0';
     ShoppingCart newCart = RemoveItem(itemName, *cart);
-    cart = &newCart;
+    *cart = newCart;
 }
 
 ShoppingCart RemoveItem(char itemName[], ShoppingCart cart)
@@ -168,7 +168,7 @@ void ModifyItemCaller(ShoppingCart *cart)
     strcpy(item.itemName, itemName);
     item.itemQuantity = newQuantity;
     ShoppingCart newCart = ModifyItem(item, *cart);
-    cart = &newCart;
+    *cart = newCart;
 }
 
 ShoppingCart ModifyItem(ItemToPurchase item, ShoppingCart cart)
