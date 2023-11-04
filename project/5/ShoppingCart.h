@@ -3,7 +3,7 @@
 typedef struct {
     char customerName[100];
     char currentDate[100];
-    ItemToPurchase cartItems[10];
+    ItemToPurchase cartItems[100];
     int cartSize;
 } ShoppingCart;
 

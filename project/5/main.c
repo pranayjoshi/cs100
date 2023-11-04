@@ -4,6 +4,7 @@
 
 int main() {
     ShoppingCart cart;
+    cart.cartSize = 0;
     printf("Enter Customer's Name:\n");
     fgets(cart.customerName, sizeof(cart.customerName), stdin);
     printf("Enter Today's Date:\n");

@@ -5,15 +5,16 @@
 
 void PrintMenu(ShoppingCart cart)
 {
-    printf("MENU\n");
-    printf("a - Add item to cart\n");
-    printf("c - Change item quantity\n");
-    printf("i - Output items' descriptions\n");
-    printf("o - Output shopping cart\n");
-    printf("q - Quit\n\n");
+
     char choice = ' ';
     while (choice != 'q')
     {
+        printf("MENU\n");
+        printf("a - Add item to cart\n");
+        printf("c - Change item quantity\n");
+        printf("i - Output items' descriptions\n");
+        printf("o - Output shopping cart\n");
+        printf("q - Quit\n\n");
         printf("Choose an option:\n");
         scanf(" %c", &choice);
         switch (choice)
@@ -75,30 +76,22 @@ void PrintDescriptions(ShoppingCart cart)
 
 void AddItem(ShoppingCart *cart)
 {
+    ItemToPurchase item;
     printf("Enter the item name:\n");
     getchar();
-    char itemName1[100];
-    fgets(itemName1, 100, stdin);
-    itemName1[strcspn(itemName1, "\n")] = 0;
+    fgets(item.itemName, sizeof(item.itemName), stdin);
 
     printf("Enter the item description:\n");
-    char itemDescription[100];
-    
-    fgets(itemDescription, sizeof(itemDescription), stdin);
+    getchar();
+    fgets(item.itemDescription, sizeof(item.itemDescription), stdin);
 
     printf("Enter the item price:\n");
-    int itemPrice;
-    scanf(" %d", &itemPrice);
+    scanf(" %d", &item.itemPrice);
 
     printf("Enter the item quantity:\n");
-    int itemQuantity;
-    scanf(" %d", &itemQuantity);
-
-    ItemToPurchase item;
-    sprintf(item.itemName, "%s", itemName1);
-    sprintf(item.itemDescription, "%s", itemDescription);
-    item.itemPrice = itemPrice;
-    item.itemQuantity = itemQuantity;
+    scanf(" %d", &item.itemQuantity);
+    printf("awdadad\n");
+    printf("%d\n", cart->cartSize);
 
     cart->cartItems[cart->cartSize] = item;
     cart->cartSize++;
