@@ -8,8 +8,10 @@ typedef struct {
 } ShoppingCart;
 
 void PrintMenu(ShoppingCart cart);
-void OutputShoppingCart(ShoppingCart cart);
-void OutputItemDescriptions(ShoppingCart cart);
-void AddItemToCart(ShoppingCart *cart);
-void RemoveItemFromCart(ShoppingCart *cart);
-void ChangeItemQuantity(ShoppingCart *cart);
+void PrintTotal(ShoppingCart cart);
+void PrintDescriptions(ShoppingCart cart);
+void AddItem(ShoppingCart *cart);
+void RemoveItem(ShoppingCart *cart);
+void ModifyItem(ShoppingCart *cart);
+void GetNumItemsInCart(ShoppingCart cart);
+void GetCostOfCart(ShoppingCart cart);

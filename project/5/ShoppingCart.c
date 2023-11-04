@@ -21,19 +21,19 @@ void PrintMenu(ShoppingCart cart)
         switch (choice)
         {
         case 'o':
-            OutputShoppingCart(cart);
+            PrintTotal(cart);
             break;
         case 'i':
-            OutputItemDescriptions(cart);
+            PrintDescriptions(cart);
             break;
         case 'a':
-            AddItemToCart(&cart);
+            AddItem(&cart);
             break;
         case 'r':
-            RemoveItemFromCart(&cart);
+            RemoveItem(&cart);
             break;
         case 'c':
-            ChangeItemQuantity(&cart);
+            ModifyItem(&cart);
             break;
         case 'q':
             printf("Goodbye!\n");
@@ -42,7 +42,7 @@ void PrintMenu(ShoppingCart cart)
     }
 }
 
-    void OutputShoppingCart(ShoppingCart cart)
+    void PrintTotal(ShoppingCart cart)
     {
         printf("OUTPUT SHOPPING CART\n");
         printf("%s's Shopping Cart - %s\n", cart.customerName, cart.currentDate);
@@ -57,7 +57,7 @@ void PrintMenu(ShoppingCart cart)
         printf("\nTotal:\n$%d\n", totalCost);
     }
 
-    void OutputItemDescriptions(ShoppingCart cart)
+    void PrintDescriptions(ShoppingCart cart)
     {
         printf("OUTPUT ITEMS' DESCRIPTIONS\n");
         printf("%s's Shopping Cart - %s\n\n", cart.customerName, cart.currentDate);
@@ -68,7 +68,7 @@ void PrintMenu(ShoppingCart cart)
         }
     }
 
-    void AddItemToCart(ShoppingCart * cart)
+    void AddItem(ShoppingCart * cart)
     {
         printf("ADD ITEM TO CART\n");
         printf("Enter the item name:\n");
@@ -97,7 +97,7 @@ void PrintMenu(ShoppingCart cart)
         cart->cartSize++;
     }
 
-    void RemoveItemFromCart(ShoppingCart * cart)
+    void RemoveItem(ShoppingCart * cart)
     {
         printf("REMOVE ITEM FROM CART\n");
         printf("Enter name of item to remove:\n");
@@ -118,7 +118,7 @@ void PrintMenu(ShoppingCart cart)
         }
     }
 
-    void ChangeItemQuantity(ShoppingCart * cart)
+    void ModifyItem(ShoppingCart * cart)
     {
         printf("CHANGE ITEM QUANTITY\n");
         printf("Enter the item name:\n");
