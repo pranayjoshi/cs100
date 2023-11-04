@@ -13,5 +13,5 @@ void PrintDescriptions(ShoppingCart cart);
 void AddItem(ShoppingCart *cart);
 void RemoveItem(ShoppingCart *cart);
 void ModifyItem(ShoppingCart *cart);
-void GetNumItemsInCart(ShoppingCart cart);
-void GetCostOfCart(ShoppingCart cart);
+int GetNumItemsInCart(ShoppingCart cart);
+int GetCostOfCart(ShoppingCart cart);
