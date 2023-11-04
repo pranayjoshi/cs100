@@ -5,17 +5,27 @@
 
 void PrintMenu(ShoppingCart cart)
 {
-
     char choice = ' ';
+    printf("\nMENU\n");
+    printf("a - Add item to cart\n");
+    printf("r - Remove item from cart\n");
+    printf("c - Change item quantity\n");
+    printf("i - Output items' descriptions\n");
+    printf("o - Output shopping cart\n");
+    printf("q - Quit\n\n");
     while (choice != 'q')
     {
-        printf("\nMENU\n");
-        printf("a - Add item to cart\n");
-        printf("r - Remove item from cart\n");
-        printf("c - Change item quantity\n");
-        printf("i - Output items' descriptions\n");
-        printf("o - Output shopping cart\n");
-        printf("q - Quit\n\n");
+        if (choice == 'a' || choice == 'r' || choice == 'c' || choice == 'i' || choice == 'o')
+        {
+            printf("\nMENU\n");
+            printf("a - Add item to cart\n");
+            printf("r - Remove item from cart\n");
+            printf("c - Change item quantity\n");
+            printf("i - Output items' descriptions\n");
+            printf("o - Output shopping cart\n");
+            printf("q - Quit\n\n");
+        }
+
         printf("Choose an option:\n");
         scanf(" %c", &choice);
         switch (choice)
@@ -48,18 +58,18 @@ void PrintMenu(ShoppingCart cart)
 
 void PrintTotal(ShoppingCart cart)
 {
-    if (cart.cartSize == 0)
-    {
-        printf("SHOPPING CART IS EMPTY\n");
-        return;
-    }
     printf("%s's Shopping Cart - %s\n", cart.customerName, cart.currentDate);
-    printf("Number of Items: %d\n\n", cart.cartSize);
+    printf("Number of Items: %d\n\n", GetNumItemsInCart(cart));
     int totalCost = 0;
     for (int i = 0; i < cart.cartSize; ++i)
     {
         printf("%s %d @ $%d = $%d\n", cart.cartItems[i].itemName, cart.cartItems[i].itemQuantity, cart.cartItems[i].itemPrice, cart.cartItems[i].itemQuantity * cart.cartItems[i].itemPrice);
         totalCost += cart.cartItems[i].itemQuantity * cart.cartItems[i].itemPrice;
+    }
+
+    if (cart.cartSize == 0)
+    {
+        printf("SHOPPING CART IS EMPTY\n");
     }
 
     printf("\nTotal: $%d\n", totalCost);
@@ -84,7 +94,6 @@ void AddItem(ShoppingCart *cart)
     item.itemName[strlen(item.itemName) - 1] = '\0';
 
     printf("Enter the item description:\n");
-    getchar();
     fgets(item.itemDescription, sizeof(item.itemDescription), stdin);
     item.itemDescription[strlen(item.itemDescription) - 1] = '\0';
 
@@ -93,8 +102,6 @@ void AddItem(ShoppingCart *cart)
 
     printf("Enter the item quantity:\n");
     scanf(" %d", &item.itemQuantity);
-    printf("awdadad\n");
-    printf("%d\n", cart->cartSize);
 
     cart->cartItems[cart->cartSize] = item;
     cart->cartSize++;
@@ -125,7 +132,7 @@ void RemoveItem(ShoppingCart *cart)
 
     if (!found)
     {
-        printf("Item not found in cart. Nothing removed\n");
+        printf("Item not found in cart. Nothing removed.\n");
     }
 }
 
@@ -137,18 +144,24 @@ void ModifyItem(ShoppingCart *cart)
     fgets(itemName, sizeof(itemName), stdin);
     itemName[strlen(itemName) - 1] = '\0';
 
-
     printf("Enter the new quantity:\n");
     int itemQuantity;
     scanf(" %d", &itemQuantity);
+    int found = 0;
 
     for (int i = 0; i < cart->cartSize; ++i)
     {
         if (strcmp(cart->cartItems[i].itemName, itemName) == 0)
         {
+            found = 1;
             cart->cartItems[i].itemQuantity = itemQuantity;
             break;
         }
+    }
+
+    if (!found)
+    {
+        printf("Item not found in cart. Nothing modified.\n");
     }
 }
 
