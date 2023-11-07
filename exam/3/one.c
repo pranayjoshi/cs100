@@ -19,8 +19,6 @@ If the file does not have n items for the last line omit it.
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-
-int main(int argc, char ** argv){
     /*
 The command line for this C program will have 2 arguments. input filename, and a number, n. eg: ./a.out input.txt 13
 If all arguments are not present print a message line:
@@ -46,8 +44,15 @@ If the file does not have n items for the last line omit it.
 int main(int argc, char ** argv){
 
     FILE *inp = fopen(argv[1], "r");
-    if (!isdigit(argv[2])) {
-        printf("usage: <pgm> filename number\n");
+    // check if arg[2] is number
+    if (argc != 3) {
+        printf("usage: %s filename number\n", argv[0]);
+        
+        return 0;
+    }
+
+    if (atoi(argv[2]) == 0) {
+        printf("usage: %s filename number\n", argv[0]);
         printf("number must be an integer value greater than 0\n");
         return 0;
     }
@@ -59,24 +64,19 @@ int main(int argc, char ** argv){
 
     int n = atoi(argv[2]);
     char line[100];
-    int count = 0;
-    while (fgets(line, 100, inp) != NULL) {
-        char *token = strtok(line, " ");
-        while (token != NULL) {
-            printf("%s", token);
-            count++;
-            if (count % n == 0) {
-                printf("\n");
-            } else {
-                printf(",");
-            }
-            token = strtok(NULL, " ");
+    int count = 1;
+    while (fscanf(inp,"%s", line) == 1) {
+        if (count == n) {
+            printf("%s", line);
+            printf("\n");
+            count = 0;
         }
+        else{
+            printf("%s, ", line);
+        }
+        
+        count++;
     }
-
-
-    return 0;
-}
 
 
     return 0;
