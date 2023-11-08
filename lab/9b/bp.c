@@ -34,8 +34,18 @@ Letter *addFront(Letter *head, char ch) {
 Letter *addFront(Letter *head, char ch) {
    Letter *newNode = malloc(sizeof(Letter));
    newNode->info = ch;
-   newNode->next = head;
-   return newNode;
+   newNode->next = NULL;
+   if (head == NULL) {
+	  head = newNode;
+   }
+   else {
+	  Letter *cur = head;
+	  while (cur->next != NULL) {
+		 cur = cur->next;
+	  }
+	  cur->next = newNode;
+   }
+   return head;
 }
 
 // Print the linked list.
