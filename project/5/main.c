@@ -12,10 +12,8 @@ int main() {
     printf("Enter Today's Date:\n");
     fgets(cart.currentDate, 100, stdin);
     cart.currentDate[strlen(cart.currentDate) - 1] = '\0';
-
     printf("\nCustomer Name: %s\n", cart.customerName);
     printf("Today's Date: %s\n", cart.currentDate);
-
     PrintMenu(cart);
 
     return 0;

@@ -1,9 +1,6 @@
-#ifndef ITEMTOPURCHASE_H
-#define ITEMTOPURCHASE_H
-
 typedef struct ItemToPurchase_struct {
     char itemName[100];
-    char itemDescription[200];
+    char itemDescription[1000];
     int itemPrice;
     int itemQuantity;
 } ItemToPurchase;
@@ -11,6 +8,3 @@ typedef struct ItemToPurchase_struct {
 void MakeItemBlank(ItemToPurchase* item);
 void PrintItemCost(ItemToPurchase* item);
 void PrintItemDescription(ItemToPurchase* item);
-
-
-#endif
