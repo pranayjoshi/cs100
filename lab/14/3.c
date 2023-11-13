@@ -89,45 +89,41 @@ int main(int argc, char **argv)
     rewind(inp);
     int last10[10][100];
     int last10count = 0;
-    while (fscanf(inp, "%s", word) == 1)
+    int ind = 9;
+    int i = count-1;
+
+    while (ind >0&& i>=0)
     {
         int s = 0;
-        for (int j = 0; j < last10count; j++)
+        for (int j = 0; j < count; j++)
         {
-            if (strcmp(last10[j], word) == 0)
+            // printf("%s %s\n", words[i], words[j]);
+            if (strcmp(words[j], words[i]) == 0)
             {
-                s = 1;
-                break;
+                s++;
+                if(s>1) break;
             }
         }
-        if (s == 1)
+        if (s >1)
         {
             continue;
         }
-        if (heft(word) > avg)
+        if (heft(words[i]) > avg)
         {
-            strcpy(last10[last10count], word);
+            // printf("%s\n", words[i]);
             last10count++;
+            strcpy(last10[ind], words[i]);
+            ind--;
         }
+        i--;
     }
-    if (last10count > 10)
-    {
-        printf("Last 10 words over heft of: %d\n", avg);
-        int j = 1;
-        for (int i = last10count-10; i < last10count; i++)
+    printf("Last %d words over heft of: %d\n", last10count, avg);
+    int ij = 0;
+    for (int i = 10-last10count; i < 10; i++)
         {
-            printf("%d. \"%s\" has heft of: %d\n", j, last10[i], heft(last10[i]));
-            j++;
+            printf("%d. \"%s\" has heft of: %d\n", ij + 1, last10[i], heft(last10[i]));
+            i++;
         }
-    }
-    else
-    {
-        printf("Last %d words over heft of: %d\n", last10count, avg);
-        for (int i = 0; i < last10count; i++)
-        {
-            printf("%d. \"%s\" has heft of: %d\n", i + 1, last10[i], heft(last10[i]));
-        }
-    }
 
     return 0;
 }
