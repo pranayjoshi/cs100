@@ -92,7 +92,7 @@ int main(int argc, char **argv)
     int ind = 9;
     int i = count-1;
 
-    while (ind >0&& i>=0)
+    while (ind >=0&& i>=0)
     {
         int s = 0;
         for (int j = 0; j < count; j++)
@@ -122,7 +122,7 @@ int main(int argc, char **argv)
     for (int i = 10-last10count; i < 10; i++)
         {
             printf("%d. \"%s\" has heft of: %d\n", ij + 1, last10[i], heft(last10[i]));
-            i++;
+            ij++;
         }
 
     return 0;
