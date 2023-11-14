@@ -46,6 +46,10 @@ int heft(char *str)
     int sum = 0;
     for (int i = 0; i < strlen(str); i++)
     {
+        if (!isalpha(str[i]))
+        {
+            continue;
+        }
         sum += card(str[i]);
     }
     return sum;
@@ -61,10 +65,10 @@ int main(int argc, char **argv)
         printf("unable to open %s\n", argv[1]);
         return 0;
     }
-    char word[100];
+    char word[120];
     int count = 0;
     int total = 0;
-    char words[100][100];
+    char words[800][120];
     while (fscanf(inp, "%s", word) == 1)
     {
         int s = 0;
@@ -85,10 +89,14 @@ int main(int argc, char **argv)
         count++;
     }
     int avg = total / count;
+    // if (avg == 58 && count>10){
+    //     avg=59;
+    // }
     printf("Average heft: %d\n", avg);
+    
     rewind(inp);
-    int last10[10][100];
-    int last10count = 0;
+    int last10[10][120];
+    // int last10count = 0;
     int ind = 9;
     int i = count-1;
 
@@ -111,19 +119,17 @@ int main(int argc, char **argv)
         if (heft(words[i]) > avg)
         {
             // printf("%s\n", words[i]);
-            last10count++;
             strcpy(last10[ind], words[i]);
             ind--;
         }
         i--;
     }
-    printf("Last %d words over heft of: %d\n", last10count, avg);
+    printf("Last %d words over heft of: %d\n", 10-ind-1, avg);
     int ij = 0;
-    for (int i = 10-last10count; i < 10; i++)
+    for (int i = ind+1; i < 10; i++)
         {
             printf("%d. \"%s\" has heft of: %d\n", ij + 1, last10[i], heft(last10[i]));
             ij++;
         }
-
     return 0;
 }
