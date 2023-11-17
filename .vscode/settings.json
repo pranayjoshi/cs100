@@ -4,6 +4,7 @@
         "string.h": "c",
         "stdlib.h": "c",
         "sstream": "c",
-        "itemtopurchase.h": "c"
+        "itemtopurchase.h": "c",
+        "ios": "c"
     }
 }

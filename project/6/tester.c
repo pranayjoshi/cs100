@@ -88,7 +88,19 @@ ImagePGM *readPGM(char *filename)
 
 int writePGM(ImagePGM *pImagePGM, char *filename)
 {
-    return 0;
+    FILE *inp = fopen(filename, "w");
+    if (inp == NULL)
+    {
+        return 0;
+    }
+    fprintf(inp, "P2\n");
+    fprintf(inp, "%d %d\n", pImagePGM->width, pImagePGM->height);
+    for (int i = 0; i < pImagePGM->width * pImagePGM->height; i++)
+    {
+        fprintf(inp, "%d\n", pImagePGM->pixels[i]);
+    }
+    fclose(inp);
+    return 1;
 }
 
 // free the ImagePGM and its pixels
@@ -96,6 +108,8 @@ int writePGM(ImagePGM *pImagePGM, char *filename)
 
 void freePGM(ImagePGM *pImagePGM)
 {
+    free(pImagePGM->pixels);
+    free(pImagePGM);
     return;
 }
 
