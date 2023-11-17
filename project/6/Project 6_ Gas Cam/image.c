@@ -18,7 +18,7 @@ ImagePPM *readPPM(char *filename)
     fscanf(inp, "P3\n");
     fscanf(inp, "%d %d\n", &img->numCols, &img->numRows);
     img->pixels = malloc(sizeof(Pixel) * img->numCols * img->numRows);
-    for (int i = 0; i < img->numCols * img->numRows; i++)
+    for (int i = 0; i <= img->numCols * img->numRows; i++)
     {
         fscanf(inp, "%d %d %d", &img->pixels[i]->red, &img->pixels[i]->green, &img->pixels[i]->blue);
     }
@@ -38,7 +38,7 @@ int writePPM(ImagePPM *pImagePPM, char *filename)
     }
     fprintf(inp, "P3\n");
     fprintf(inp, "%d %d\n", pImagePPM->numCols, pImagePPM->numRows);
-    for (int i = 0; i < pImagePPM->numCols * pImagePPM->numRows; i++)
+    for (int i = 0; i <= pImagePPM->numCols * pImagePPM->numRows; i++)
     {
         fprintf(inp, "%d %d %d\n", pImagePPM->pixels[i]->red, pImagePPM->pixels[i]->green, pImagePPM->pixels[i]->blue);
     }
@@ -70,7 +70,7 @@ ImagePGM *readPGM(char *filename)
     fscanf(inp, "P2\n");
     fscanf(inp, "%d %d\n", &img->numCols, &img->numRows);
     img->pixels = malloc(sizeof(Pixel) * img->numCols * img->numRows);
-    for (int i = 0; i < img->numCols * img->numRows; i++)
+    for (int i = 0; i <= img->numCols * img->numRows; i++)
     {
         fscanf(inp, "%d", &img->pixels[i]);
     }
@@ -90,7 +90,7 @@ int writePGM(ImagePGM *pImagePGM, char *filename)
     }
     fprintf(inp, "P2\n");
     fprintf(inp, "%d %d\n", pImagePGM->numCols, pImagePGM->numRows);
-    for (int i = 0; i < pImagePGM->numCols * pImagePGM->numRows; i++)
+    for (int i = 0; i <= pImagePGM->numCols * pImagePGM->numRows; i++)
     {
         fprintf(inp, "%d\n", pImagePGM->pixels[i]);
     }
