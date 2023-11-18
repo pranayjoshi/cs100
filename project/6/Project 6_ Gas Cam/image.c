@@ -21,6 +21,7 @@ ImagePPM *readPPM(char *filename)
     for (int i = 0; i <= img->numCols * img->numRows; i++)
     {
         fscanf(inp, "%d %d %d", &img->pixels[i]->red, &img->pixels[i]->green, &img->pixels[i]->blue);
+        printf("%d %d %d\n", img->pixels[i]->red, img->pixels[i]->green, img->pixels[i]->blue);
     }
     return img;
 }
@@ -117,6 +118,7 @@ ImagePGM *convertToPGM(ImagePPM *pImagePPM)
     for (int i = 0; i < img->numCols * img->numRows; i++)
     {
         img->pixels[i] = (pImagePPM->pixels[i]->red + pImagePPM->pixels[i]->green + pImagePPM->pixels[i]->blue) / 3;
+        printf("%d\n", img->pixels[i]);
     }
     return img;
 }
@@ -127,7 +129,7 @@ ImagePGM *shrinkPGM(ImagePGM *pImagePGM)
     img->numCols = pImagePGM->numCols / 2;
     img->numRows = pImagePGM->numRows / 2;
     img->pixels = malloc(sizeof(int) * img->numCols * img->numRows);
-    for (int i = 0; i < img->numCols * img->numRows; i++)
+    for (int i = 0; i < (img->numCols * img->numRows)-1; i++)
     {
         int xc = pImagePGM->pixels[i + pImagePGM->numCols];
         int xs = pImagePGM->pixels[i + pImagePGM->numCols + 1];
