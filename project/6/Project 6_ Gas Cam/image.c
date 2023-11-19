@@ -71,8 +71,13 @@ int writePPM(ImagePPM *pImagePPM, char *filename)
 
 void freePPM(ImagePPM *pImagePPM)
 {
+    for (int i = 0; i < pImagePPM->numRows; i++)
+    {
+        free(pImagePPM->pixels[i]);
+    }
     free(pImagePPM->pixels);
     free(pImagePPM);
+    printf("dwadad\n");
     return;
 }
 
