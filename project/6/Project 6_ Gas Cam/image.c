@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 #include "image.h"
 
@@ -19,10 +20,11 @@ ImagePPM *readPPM(char *filename)
     fscanf(inp, "%d %d\n", &img->numCols, &img->numRows);
     fscanf(inp, "%d\n", &img->maxVal);
     img->pixels = (Pixel **)malloc(sizeof(Pixel) * img->numRows);
-    for(int i = 0; i < img->numRows ; i++) {
+    for (int i = 0; i < img->numRows; i++)
+    {
         img->pixels[i] = (Pixel *)malloc(sizeof(Pixel) * img->numCols);
     }
-    
+
     for (int i = 0; i < img->numRows; i++)
     {
         // printf("here3\n");
@@ -128,7 +130,8 @@ void freePGM(ImagePGM *pImagePGM)
     return;
 }
 
-ImagePGM *convertToPGM(ImagePPM *pImagePPM) {
+ImagePGM *convertToPGM(ImagePPM *pImagePPM)
+{
     ImagePGM *pImagePGM = malloc(sizeof(ImagePGM));
     strcpy(pImagePGM->magic, "P2");
     pImagePGM->numRows = pImagePPM->numRows;
@@ -137,8 +140,10 @@ ImagePGM *convertToPGM(ImagePPM *pImagePPM) {
 
     pImagePGM->pixels = malloc(sizeof(Pixel) * pImagePGM->numCols * pImagePGM->numRows);
     int s = 0;
-    for(int i = 0; i < pImagePGM->numRows; i++) {
-        for(int j = 0; j < pImagePGM->numCols; j++) {
+    for (int i = 0; i < pImagePGM->numRows; i++)
+    {
+        for (int j = 0; j < pImagePGM->numCols; j++)
+        {
             pImagePGM->pixels[s] = (pImagePPM->pixels[i][j].red + pImagePPM->pixels[i][j].green + pImagePPM->pixels[i][j].blue) / 3;
             s++;
         }
@@ -155,9 +160,17 @@ ImagePGM *shrinkPGM(ImagePGM *pImagePGM)
     img->numRows = pImagePGM->numRows / 2;
     img->maxVal = pImagePGM->maxVal;
     img->pixels = malloc(sizeof(Pixel) * img->numCols * img->numRows);
-    for (int i = 0; i < (img->numRows* img->numCols); i++)
-        {
-            img->pixels[i] = (pImagePGM->pixels[i*2] + pImagePGM->pixels[i*2+1] + pImagePGM->pixels[i*2+pImagePGM->numCols] + pImagePGM->pixels[i*2+pImagePGM->numCols+1])/4;
-        }
+    for (int i = 0; i < img->numCols * img->numRows; i++)
+    {
+        int row = i / img->numCols;
+        int col = i % img->numCols;
+
+        int index1 = pImagePGM->pixels[(2 * row) * pImagePGM->numCols + (2 * col)];
+        int index2 = pImagePGM->pixels[(2 * row) * pImagePGM->numCols + (2 * col) + 1];
+        int index3 = pImagePGM->pixels[(2 * row + 1) * pImagePGM->numCols + (2 * col)];
+        int index4 = pImagePGM->pixels[(2 * row + 1) * pImagePGM->numCols + (2 * col) + 1];
+        
+        img->pixels[i] = (index1 + index2 + index3 + index4) / 4;
+    }
     return img;
 }
