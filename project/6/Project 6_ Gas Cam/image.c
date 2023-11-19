@@ -157,11 +157,7 @@ ImagePGM *shrinkPGM(ImagePGM *pImagePGM)
     img->pixels = malloc(sizeof(Pixel) * img->numCols * img->numRows);
     for (int i = 0; i < (img->numRows* img->numCols); i++)
         {
-            int xc = pImagePGM->pixels[i * 2];
-            int xs = pImagePGM->pixels[i * 2];
-            int xt = pImagePGM->pixels[i * 2 + 1];
-            int xw = pImagePGM->pixels[i * 2 + 1];
-            img->pixels[i] = (xt + xw + xc + xs) / 4;
+            img->pixels[i] = (pImagePGM->pixels[i*2] + pImagePGM->pixels[i*2+1] + pImagePGM->pixels[i*2+pImagePGM->numCols] + pImagePGM->pixels[i*2+pImagePGM->numCols+1])/4;
         }
     return img;
 }
