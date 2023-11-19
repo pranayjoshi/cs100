@@ -77,7 +77,7 @@ void freePPM(ImagePPM *pImagePPM)
     }
     free(pImagePPM->pixels);
     free(pImagePPM);
-    printf("dwadad\n");
+    
     return;
 }
 
@@ -129,7 +129,7 @@ int writePGM(ImagePGM *pImagePGM, char *filename)
 // everything with a malloc needs a free
 
 void freePGM(ImagePGM *pImagePGM)
-{
+{   
     free(pImagePGM->pixels);
     free(pImagePGM);
     return;
