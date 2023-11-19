@@ -17,14 +17,24 @@ ImagePPM *readPPM(char *filename)
     ImagePPM *img = malloc(sizeof(ImagePPM));
     fscanf(inp, "P3\n");
     fscanf(inp, "%d %d\n", &img->numCols, &img->numRows);
-    img->pixels = malloc(sizeof(Pixel) * img->numCols * img->numRows);
-    for (int i = 0; i <= img->numCols; i++)
+    fscanf(inp, "%d\n", &img->maxVal);
+    img->pixels = (Pixel **)malloc(sizeof(Pixel) * img->numRows);
+    for(int i = 0; i < img->numRows ; i++) {
+        img->pixels[i] = (Pixel *)malloc(sizeof(Pixel) * img->numCols);
+    }
+    
+    for (int i = 0; i < img->numRows; i++)
     {
-        for (int j = 0; j <= img->numRows; j++)
+        // printf("here3\n");
+        for (int j = 0; j < img->numCols; j++)
         {
-            fscanf(inp, "%d %d %d", &img->pixels[i][j].red, &img->pixels[i][j].green, &img->pixels[i][j].blue);
+            // printf("here4\n");
+            fscanf(inp, "%d", &img->pixels[i][j].red);
+            fscanf(inp, "%d", &img->pixels[i][j].green);
+            fscanf(inp, "%d", &img->pixels[i][j].blue);
         }
     }
+    // printf("hwadere\n");
     return img;
 }
 
@@ -35,15 +45,17 @@ ImagePPM *readPPM(char *filename)
 int writePPM(ImagePPM *pImagePPM, char *filename)
 {
     FILE *inp = fopen(filename, "w");
+    // printf("hwadere\n");
     if (inp == NULL)
     {
         return 0;
     }
     fprintf(inp, "P3\n");
     fprintf(inp, "%d %d\n", pImagePPM->numCols, pImagePPM->numRows);
-    for (int i = 0; i <= pImagePPM->numCols; i++)
+    fprintf(inp, "%d\n", pImagePPM->maxVal);
+    for (int i = 0; i < pImagePPM->numRows; i++)
     {
-        for (int j = 0; j <= pImagePPM->numRows; j++)
+        for (int j = 0; j < pImagePPM->numCols; j++)
         {
             fprintf(inp, "%d %d %d\n", pImagePPM->pixels[i][j].red, pImagePPM->pixels[i][j].green, pImagePPM->pixels[i][j].blue);
         }
@@ -75,8 +87,9 @@ ImagePGM *readPGM(char *filename)
     ImagePGM *img = malloc(sizeof(ImagePGM));
     fscanf(inp, "P2\n");
     fscanf(inp, "%d %d\n", &img->numCols, &img->numRows);
+    fscanf(inp, "%d\n", &img->maxVal);
     img->pixels = malloc(sizeof(Pixel) * img->numCols * img->numRows);
-    for (int i = 0; i <= img->numCols * img->numRows; i++)
+    for (int i = 0; i < img->numCols * img->numRows; i++)
     {
         fscanf(inp, "%d", &img->pixels[i]);
     }
@@ -96,7 +109,8 @@ int writePGM(ImagePGM *pImagePGM, char *filename)
     }
     fprintf(inp, "P2\n");
     fprintf(inp, "%d %d\n", pImagePGM->numCols, pImagePGM->numRows);
-    for (int i = 0; i <= pImagePGM->numCols * pImagePGM->numRows; i++)
+    fprintf(inp, "%d\n", pImagePGM->maxVal);
+    for (int i = 0; i < pImagePGM->numCols * pImagePGM->numRows; i++)
     {
         fprintf(inp, "%d\n", pImagePGM->pixels[i]);
     }
@@ -114,20 +128,23 @@ void freePGM(ImagePGM *pImagePGM)
     return;
 }
 
-ImagePGM *convertToPGM(ImagePPM *pImagePPM)
-{
-    ImagePGM *img = malloc(sizeof(ImagePGM));
-    img->numCols = pImagePPM->numCols;
-    img->numRows = pImagePPM->numRows;
-    img->pixels = malloc(sizeof(int) * img->numCols * img->numRows);
-    for (int i = 0; i < (img->numCols); i++)
-    {
-        for (int j = 0; j < (img->numRows); j++)
-        {
-            img->pixels[i][j] = (pImagePPM->pixels[i][j].red + pImagePPM->pixels[i][j].green + pImagePPM->pixels[i][j].blue) / 3;
+ImagePGM *convertToPGM(ImagePPM *pImagePPM) {
+    ImagePGM *pImagePGM = malloc(sizeof(ImagePGM));
+    strcpy(pImagePGM->magic, "P2");
+    pImagePGM->numRows = pImagePPM->numRows;
+    pImagePGM->numCols = pImagePPM->numCols;
+    pImagePGM->maxVal = pImagePPM->maxVal;
+
+    pImagePGM->pixels = malloc(sizeof(Pixel) * pImagePGM->numCols * pImagePGM->numRows);
+
+    for(int i = 0; i < pImagePGM->numRows; i++) {
+        for(int j = 0; j < pImagePGM->numCols; j++) {
+            pImagePGM->pixels[s] = (pImagePPM->pixels[i][j].red + pImagePPM->pixels[i][j].green + pImagePPM->pixels[i][j].blue) / 3;
+            s++;
         }
     }
-    return img;
+
+    return pImagePGM;
 }
 
 ImagePGM *shrinkPGM(ImagePGM *pImagePGM)
@@ -135,10 +152,10 @@ ImagePGM *shrinkPGM(ImagePGM *pImagePGM)
     ImagePGM *img = malloc(sizeof(ImagePGM));
     img->numCols = pImagePGM->numCols / 2;
     img->numRows = pImagePGM->numRows / 2;
-    img->pixels = malloc(sizeof(int) * img->numCols * img->numRows);
-    for (int i = 0; i < (img->numCols); i++)
+    img->pixels = malloc(sizeof(Pixel) * img->numCols * img->numRows);
+    for (int i = 0; i < (img->numRows); i++)
     {
-        for (int j = 0; j < (img->numRows); j++)
+        for (int j = 0; j < (img->numCols); j++)
         {
             int xc = pImagePGM->pixels[i * 2][j * 2];
             int xs = pImagePGM->pixels[i * 2][j * 2 + 1];
