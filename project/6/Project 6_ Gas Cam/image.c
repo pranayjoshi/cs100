@@ -150,19 +150,18 @@ ImagePGM *convertToPGM(ImagePPM *pImagePPM) {
 ImagePGM *shrinkPGM(ImagePGM *pImagePGM)
 {
     ImagePGM *img = malloc(sizeof(ImagePGM));
+    strcpy(img->magic, pImagePGM->magic);
     img->numCols = pImagePGM->numCols / 2;
     img->numRows = pImagePGM->numRows / 2;
+    img->maxVal = pImagePGM->maxVal;
     img->pixels = malloc(sizeof(Pixel) * img->numCols * img->numRows);
-    for (int i = 0; i < (img->numRows); i++)
-    {
-        for (int j = 0; j < (img->numCols); j++)
+    for (int i = 0; i < (img->numRows* img->numCols); i++)
         {
-            int xc = pImagePGM->pixels[i * 2][j * 2];
-            int xs = pImagePGM->pixels[i * 2][j * 2 + 1];
-            int xt = pImagePGM->pixels[i * 2 + 1][j * 2];
-            int xw = pImagePGM->pixels[i * 2 + 1][j * 2 + 1];
-            img->pixels[i][j] = (xt + xw + xc + xs) / 4;
+            int xc = pImagePGM->pixels[i * 2];
+            int xs = pImagePGM->pixels[i * 2];
+            int xt = pImagePGM->pixels[i * 2 + 1];
+            int xw = pImagePGM->pixels[i * 2 + 1];
+            img->pixels[i] = (xt + xw + xc + xs) / 4;
         }
-    }
     return img;
 }
