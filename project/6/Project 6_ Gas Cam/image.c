@@ -136,7 +136,7 @@ ImagePGM *convertToPGM(ImagePPM *pImagePPM) {
     pImagePGM->maxVal = pImagePPM->maxVal;
 
     pImagePGM->pixels = malloc(sizeof(Pixel) * pImagePGM->numCols * pImagePGM->numRows);
-
+    int s = 0;
     for(int i = 0; i < pImagePGM->numRows; i++) {
         for(int j = 0; j < pImagePGM->numCols; j++) {
             pImagePGM->pixels[s] = (pImagePPM->pixels[i][j].red + pImagePPM->pixels[i][j].green + pImagePPM->pixels[i][j].blue) / 3;
