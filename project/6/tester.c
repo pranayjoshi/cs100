@@ -9,44 +9,48 @@
 
 
 
-ImagePPM *readPPM(char *filename)
+ImagePPM *readPPM(char *fn)
 {
-    FILE *inp = fopen(filename, "r");
-    if (inp == NULL)
+    FILE *input = fopen(fn, "r");
+    if (input == NULL) return NULL;
+    ImagePPM *copyImg = malloc(sizeof(ImagePPM));
+    fscanf(input, "P3\n%d %d\n%d\n", &copyImg->numCols, &copyImg->numRows, &copyImg->maxVal);
+
+    copyImg->pixels = (Pixel **)malloc(sizeof(Pixel) * copyImg->numRows);
+
+    for (int i = 0; i < copyImg->numRows; i++)
     {
-        return NULL;
+        copyImg->pixels[i] = (Pixel *)malloc(sizeof(Pixel) * copyImg->numCols);
     }
-    ImagePPM *img = malloc(sizeof(ImagePPM));
-    fscanf(inp, "P3\n");
-    fscanf(inp, "%d %d\n", &img->width, &img->height);
-    img->pixels = malloc(sizeof(Pixel) * img->width * img->height);
-    for (int i = 0; i < img->width * img->height; i++)
+
+    for (int i = 0; i < copyImg->numRows; i++)
     {
-        fscanf(inp, "%d %d %d", &img->pixels[i].red, &img->pixels[i].green, &img->pixels[i].blue);
+        for (int j = 0; j < copyImg->numCols; j++)
+        {
+            fscanf(input, "%d %d %d", &copyImg->pixels[i][j].red, &copyImg->pixels[i][j].green, &copyImg->pixels[i][j].blue);
+        }
     }
-    fclose(inp);
-    return img;
-    
+    return copyImg;
 }
 
 // open the file and write the ImagePPM to the file
 // return 1 on success
 // return 0 if the file cannot be opened
 
-int writePPM(ImagePPM *pImagePPM, char *filename)
+int writePPM(ImagePPM *PpmImg, char *fn)
 {
-    FILE *inp = fopen(filename, "w");
-    if (inp == NULL)
+    FILE *input = fopen(fn, "w");
+    if (input == NULL)return 0;
+
+    fprintf(input, "P3\n%d %d\n%d\n", PpmImg->numCols, PpmImg->numRows, PpmImg->maxVal);
+    for (int i = 0; i < PpmImg->numRows; i++)
     {
-        return 0;
+        for (int j = 0; j < PpmImg->numCols; j++)
+        {
+            fprintf(input, "%d %d %d\n", PpmImg->pixels[i][j].red, PpmImg->pixels[i][j].green, PpmImg->pixels[i][j].blue);
+        }
     }
-    fprintf(inp, "P3\n");
-    fprintf(inp, "%d %d\n", pImagePPM->width, pImagePPM->height);
-    for (int i = 0; i < pImagePPM->width * pImagePPM->height; i++)
-    {
-        fprintf(inp, "%d %d %d\n", pImagePPM->pixels[i].red, pImagePPM->pixels[i].green, pImagePPM->pixels[i].blue);
-    }
-    fclose(inp);
+    fclose(input);
     return 1;
 }
 
@@ -70,16 +74,6 @@ ImagePGM *readPGM(char *filename)
     {
         return NULL;
     }
-    ImagePGM *img = malloc(sizeof(ImagePGM));
-    fscanf(inp, "P2\n");
-    fscanf(inp, "%d %d\n", &img->width, &img->height);
-    img->pixels = malloc(sizeof(int) * img->width * img->height);
-    for (int i = 0; i < img->width * img->height; i++)
-    {
-        fscanf(inp, "%d", &img->pixels[i]);
-    }
-    fclose(inp);
-    return img;
 }
 
 // open the file and write the ImagePGM to the file
@@ -93,14 +87,6 @@ int writePGM(ImagePGM *pImagePGM, char *filename)
     {
         return 0;
     }
-    fprintf(inp, "P2\n");
-    fprintf(inp, "%d %d\n", pImagePGM->width, pImagePGM->height);
-    for (int i = 0; i < pImagePGM->width * pImagePGM->height; i++)
-    {
-        fprintf(inp, "%d\n", pImagePGM->pixels[i]);
-    }
-    fclose(inp);
-    return 1;
 }
 
 // free the ImagePGM and its pixels

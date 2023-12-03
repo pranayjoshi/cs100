@@ -5,177 +5,164 @@
 
 #include "image.h"
 
-// open the file, create an ImagePPM, and return the pointer
-// return NULL if the file cannot be opened
-
-ImagePPM *readPPM(char *filename)
+ImagePPM *readPPM(char *fn)
 {
-    FILE *inp = fopen(filename, "r");
-    if (inp == NULL)
+    FILE *input = fopen(fn, "r");
+    if (input == NULL) return NULL;
+    ImagePPM *copyImg = malloc(sizeof(ImagePPM));
+    fscanf(input, "P3\n%d %d\n%d\n", &copyImg->numCols, &copyImg->numRows, &copyImg->maxVal);
+
+    copyImg->pixels = (Pixel **)malloc(sizeof(Pixel) * copyImg->numRows);
+
+    for (int i = 0; i < copyImg->numRows; i++)
     {
-        return NULL;
-    }
-    ImagePPM *img = malloc(sizeof(ImagePPM));
-    fscanf(inp, "P3\n");
-    fscanf(inp, "%d %d\n", &img->numCols, &img->numRows);
-    fscanf(inp, "%d\n", &img->maxVal);
-    img->pixels = (Pixel **)malloc(sizeof(Pixel) * img->numRows);
-    for (int i = 0; i < img->numRows; i++)
-    {
-        img->pixels[i] = (Pixel *)malloc(sizeof(Pixel) * img->numCols);
+        copyImg->pixels[i] = (Pixel *)malloc(sizeof(Pixel) * copyImg->numCols);
     }
 
-    for (int i = 0; i < img->numRows; i++)
+    for (int i = 0; i < copyImg->numRows; i++)
     {
-        // printf("here3\n");
-        for (int j = 0; j < img->numCols; j++)
+        for (int j = 0; j < copyImg->numCols; j++)
         {
-            // printf("here4\n");
-            fscanf(inp, "%d", &img->pixels[i][j].red);
-            fscanf(inp, "%d", &img->pixels[i][j].green);
-            fscanf(inp, "%d", &img->pixels[i][j].blue);
+            fscanf(input, "%d %d %d", &copyImg->pixels[i][j].red, &copyImg->pixels[i][j].green, &copyImg->pixels[i][j].blue);
         }
     }
-    // printf("hwadere\n");
-    return img;
+    return copyImg;
 }
 
-// open the file and write the ImagePPM to the file
-// return 1 on success
-// return 0 if the file cannot be opened
-
-int writePPM(ImagePPM *pImagePPM, char *filename)
+int writePPM(ImagePPM *PpmImg, char *fn)
 {
-    FILE *inp = fopen(filename, "w");
-    // printf("hwadere\n");
-    if (inp == NULL)
+    FILE *input = fopen(fn, "w");
+    if (input == NULL)return 0;
+
+    fprintf(input, "P3\n%d %d\n%d\n", PpmImg->numCols, PpmImg->numRows, PpmImg->maxVal);
+    for (int i = 0; i < PpmImg->numRows; i++)
     {
-        return 0;
-    }
-    fprintf(inp, "P3\n");
-    fprintf(inp, "%d %d\n", pImagePPM->numCols, pImagePPM->numRows);
-    fprintf(inp, "%d\n", pImagePPM->maxVal);
-    for (int i = 0; i < pImagePPM->numRows; i++)
-    {
-        for (int j = 0; j < pImagePPM->numCols; j++)
+        for (int j = 0; j < PpmImg->numCols; j++)
         {
-            fprintf(inp, "%d %d %d\n", pImagePPM->pixels[i][j].red, pImagePPM->pixels[i][j].green, pImagePPM->pixels[i][j].blue);
+            fprintf(input, "%d %d %d\n", PpmImg->pixels[i][j].red, PpmImg->pixels[i][j].green, PpmImg->pixels[i][j].blue);
         }
     }
-    fclose(inp);
+    fclose(input);
     return 1;
 }
 
-// free the ImagePPM and its pixels
-// everything with a malloc needs a free
-
-void freePPM(ImagePPM *pImagePPM)
+void freePPM(ImagePPM *PpmImg)
 {
-    for (int i = 0; i < pImagePPM->numRows; i++)
+    for (int i = 0; i < PpmImg->numRows; i++)
     {
-        free(pImagePPM->pixels[i]);
+        free(PpmImg->pixels[i]);
     }
-    free(pImagePPM->pixels);
-    free(pImagePPM);
-    
+    free(PpmImg->pixels);
+    free(PpmImg);
+
     return;
 }
 
-// open the file, create an ImagePGM, and return the pointer
-// return NULL if the file cannot be opened
-
-ImagePGM *readPGM(char *filename)
+ImagePGM *readPGM(char *fn)
 {
-    FILE *inp = fopen(filename, "r");
-    if (inp == NULL)
+    FILE *input = fopen(fn, "r");
+    if (input == NULL) return NULL;
+    ImagePGM *copyImg = malloc(sizeof(ImagePGM));
+    fscanf(input, "P2\n%d %d\n%d\n", &copyImg->numCols, &copyImg->numRows, &copyImg->maxVal);
+    copyImg->pixels = malloc(sizeof(int *) * copyImg->numRows);
+    for (int i = 0; i < copyImg->numRows; i++)
     {
-        return NULL;
+        copyImg->pixels[i] = malloc(sizeof(int) * copyImg->numCols);
     }
-    ImagePGM *img = malloc(sizeof(ImagePGM));
-    fscanf(inp, "P2\n");
-    fscanf(inp, "%d %d\n", &img->numCols, &img->numRows);
-    fscanf(inp, "%d\n", &img->maxVal);
-    img->pixels = malloc(sizeof(Pixel) * img->numCols * img->numRows);
-    for (int i = 0; i < img->numCols * img->numRows; i++)
+    for (int i = 0; i < copyImg->numRows; i++)
     {
-        fscanf(inp, "%d", &img->pixels[i]);
+        for (int j = 0; j < copyImg->numCols; j++)
+        {
+            fscanf(input, "%d", &copyImg->pixels[i][j]);
+        }
     }
-    return img;
+    return copyImg;
 }
-
-// open the file and write the ImagePGM to the file
-// return 1 on success
-// return 0 if the file cannot be opened
-
-int writePGM(ImagePGM *pImagePGM, char *filename)
+int writePGM(ImagePGM *PgmImg, char *fn)
 {
-    FILE *inp = fopen(filename, "w");
-    if (inp == NULL)
+    FILE *input = fopen(fn, "w");
+    if (input == NULL) return 0;
+    fprintf(input, "P2\n%d %d\n%d\n", PgmImg->numCols, PgmImg->numRows, PgmImg->maxVal);
+    // loop through the pixels and print them
+    for (int i = 0; i < PgmImg->numRows; i++)
     {
-        return 0;
+        for (int j = 0; j < PgmImg->numCols; j++)
+        {
+            fprintf(input, "%d\n", PgmImg->pixels[i][j]);
+        }
     }
-    fprintf(inp, "P2\n");
-    fprintf(inp, "%d %d\n", pImagePGM->numCols, pImagePGM->numRows);
-    fprintf(inp, "%d\n", pImagePGM->maxVal);
-    for (int i = 0; i < pImagePGM->numCols * pImagePGM->numRows; i++)
-    {
-        fprintf(inp, "%d\n", pImagePGM->pixels[i]);
-    }
-    fclose(inp);
+    fclose(input);
     return 1;
 }
-
-// free the ImagePGM and its pixels
-// everything with a malloc needs a free
-
-void freePGM(ImagePGM *pImagePGM)
-{   
-    free(pImagePGM->pixels);
-    free(pImagePGM);
+void freePGM(ImagePGM *PgmImg)
+{
+    for (int i = 0; i < PgmImg->numRows; i++)
+    {
+        free(PgmImg->pixels[i]);
+    }
+    free(PgmImg->pixels);
+    free(PgmImg);
     return;
 }
 
-ImagePGM *convertToPGM(ImagePPM *pImagePPM)
+ImagePGM *convertToPGM(ImagePPM *PpmImg)
 {
-    ImagePGM *pImagePGM = malloc(sizeof(ImagePGM));
-    strcpy(pImagePGM->magic, "P2");
-    pImagePGM->numRows = pImagePPM->numRows;
-    pImagePGM->numCols = pImagePPM->numCols;
-    pImagePGM->maxVal = pImagePPM->maxVal;
+    ImagePGM *PgmImg = malloc(sizeof(ImagePGM));
+    strcpy(PgmImg->magic, "P2");
 
-    pImagePGM->pixels = malloc(sizeof(Pixel) * pImagePGM->numCols * pImagePGM->numRows);
-    int s = 0;
-    for (int i = 0; i < pImagePGM->numRows; i++)
+    // copying values
+    PgmImg->numRows = PpmImg->numRows;
+    PgmImg->numCols = PpmImg->numCols;
+    PgmImg->maxVal = PpmImg->maxVal;
+
+    PgmImg->pixels = malloc(sizeof(int *) * PgmImg->numRows);
+    for (int i = 0; i < PgmImg->numRows; i++)
     {
-        for (int j = 0; j < pImagePGM->numCols; j++)
+        PgmImg->pixels[i] = malloc(sizeof(int) * PgmImg->numCols);
+    }
+    for (int i = 0; i < PgmImg->numRows; i++)
+    {
+        for (int j = 0; j < PgmImg->numCols; j++)
         {
-            pImagePGM->pixels[s] = (pImagePPM->pixels[i][j].red + pImagePPM->pixels[i][j].green + pImagePPM->pixels[i][j].blue) / 3;
-            s++;
+            // getting values from PpmImg
+            int red = PpmImg->pixels[i][j].red;
+            int green = PpmImg->pixels[i][j].green;
+            int blue = PpmImg->pixels[i][j].blue;
+            PgmImg->pixels[i][j] = ( red + green + blue) / 3;
         }
     }
 
-    return pImagePGM;
+    return PgmImg;
 }
 
-ImagePGM *shrinkPGM(ImagePGM *pImagePGM)
+ImagePGM *shrinkPGM(ImagePGM *PgmImg)
 {
-    ImagePGM *img = malloc(sizeof(ImagePGM));
-    strcpy(img->magic, pImagePGM->magic);
-    img->numCols = pImagePGM->numCols / 2;
-    img->numRows = pImagePGM->numRows / 2;
-    img->maxVal = pImagePGM->maxVal;
-    img->pixels = malloc(sizeof(Pixel) * img->numCols * img->numRows);
-    for (int i = 0; i < img->numCols * img->numRows; i++)
-    {
-        int row = i / img->numCols;
-        int col = i % img->numCols;
+    ImagePGM *copyImg = malloc(sizeof(ImagePGM));
+    // copy to copyImg
+    strcpy(copyImg->magic, PgmImg->magic);
 
-        int index1 = pImagePGM->pixels[(2 * row) * pImagePGM->numCols + (2 * col)];
-        int index2 = pImagePGM->pixels[(2 * row) * pImagePGM->numCols + (2 * col) + 1];
-        int index3 = pImagePGM->pixels[(2 * row + 1) * pImagePGM->numCols + (2 * col)];
-        int index4 = pImagePGM->pixels[(2 * row + 1) * pImagePGM->numCols + (2 * col) + 1];
-        
-        img->pixels[i] = (index1 + index2 + index3 + index4) / 4;
+    int diff = 2;
+
+    copyImg->numCols = PgmImg->numCols / diff;
+    copyImg->numRows = PgmImg->numRows / diff;
+    copyImg->maxVal = PgmImg->maxVal;
+    copyImg->pixels = malloc(sizeof(int *) * copyImg->numRows);
+    for (int i = 0; i < copyImg->numRows; i++)
+    {
+        copyImg->pixels[i] = malloc(sizeof(int) * copyImg->numCols);
     }
-    return img;
+    for (int i = 0; i < copyImg->numRows; i++)
+    {
+        for (int j = 0; j < copyImg->numCols; j++)
+        {
+            // using them directly was causing error so i used them in variables
+            int i1 = PgmImg->pixels[2 * i][2 * j];
+            int i2 = PgmImg->pixels[2 * i][2 * j + 1];
+            int i3 = PgmImg->pixels[2 * i + 1][2 * j];
+            int i4 = PgmImg->pixels[2 * i + 1][2 * j + 1];
+
+            copyImg->pixels[i][j] = (i1 + i2 + i3 + i4) / 4;
+        }
+    }
+    return copyImg;
 }
